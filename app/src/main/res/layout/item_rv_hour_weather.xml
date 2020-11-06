@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/dp_92"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.wl.wlflatproject.MView.WeatherChartView
+        android:id="@+id/temp_wcv"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_175"
+        app:DotModel="ring"
+        app:NormalTextColor="@color/white"
+        app:NowTextColor="#31ABD3"
+        app:dotColor="@color/white"
+        app:dotRadius="@dimen/dp_4"
+        app:dottedLineColor="@color/white"
+        app:dottedLineSize="1px"
+        app:foldLineColor="@color/white"
+        app:foldLineSize="@dimen/dp_2"
+        app:passDotColor="#B3AAAEB2"
+        app:passFoldLineColor="#B3AAAEB2"
+        app:showDottedLine="true"
+        app:showMiddleLine="false"
+        app:textMarginBottom="@dimen/dp_10"
+        app:textSize="@dimen/sp_22" />
+
+    <TextView
+        android:id="@+id/air_quality_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_9"
+        android:background="@drawable/shape_air_bg"
+        android:paddingLeft="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_1"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_1"
+        android:text="433差"
+        android:textColor="#AAAEB2"
+        android:textSize="@dimen/sp_18" />
+
+    <View
+        android:id="@+id/split_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_2"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="#56616C" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_15"
+        android:text="14:00"
+        android:textColor="#AAAEB2"
+        android:textSize="@dimen/sp_20" />
+</LinearLayout>

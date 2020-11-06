@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_7"
+        android:background="#253443"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_centerVertical="true"
+                android:background="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:text="屋内人数检测"
+                android:textColor="#26b275"
+                android:textSize="@dimen/sp_20" />
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/wait_time"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="屋内人数检测"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <com.suke.widget.SwitchButton
+                android:id="@+id/switch_bt"
+                app:sb_background="#3B5670"
+                app:sb_checked_color="#26B275"
+                app:sb_show_indicator="false"
+                app:sb_button_color="#7B97B3"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/dp_40"
+                android:layout_height="@dimen/dp_25" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:id="@+id/num_rl"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="当前屋内人数"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/num_tv"
+                android:layout_marginRight="5dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="未知"
+                android:textColor="#AAAeb2"
+                android:textSize="@dimen/sp_16" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+
+        <Button
+            android:visibility="gone"
+            android:id="@+id/reset"
+            android:text="重置屋内人数"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_radius_4_26b275"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_200"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_7"
+        android:background="#253443"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_centerVertical="true"
+                android:background="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:text="重置屋内人数"
+                android:textColor="#26b275"
+                android:textSize="@dimen/sp_20" />
+
+        </RelativeLayout>
+
+
+<LinearLayout
+    android:layout_marginTop="@dimen/dp_15"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_marginRight="@dimen/dp_10"
+    android:background="#2A3B4D"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="重置屋内人数"
+        android:textColor="#26b275"
+        android:textSize="@dimen/sp_18" />
+
+
+    <TextView
+        android:layout_marginLeft="@dimen/dp_27"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="第一步：关门"
+        android:textColor="#AAAEB2"
+        android:textSize="@dimen/sp_16" />
+    <TextView
+        android:layout_marginLeft="@dimen/dp_27"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="第二步：输入当前实际屋内人数"
+        android:textColor="#AAAEB2"
+        android:textSize="@dimen/sp_16" />
+    <TextView
+        android:layout_marginBottom="@dimen/dp_27"
+        android:layout_marginLeft="@dimen/dp_27"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="第三步：保存"
+        android:textColor="#AAAEB2"
+        android:textSize="@dimen/sp_16" />
+
+
+
+</LinearLayout>
+
+        <LinearLayout
+
+            android:layout_marginTop="@dimen/dp_50"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="当前屋内实际人数"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_17"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/edit"
+                android:inputType="number"
+                android:maxLength="4"
+                android:gravity="center"
+                android:hint="请输入当前屋内人数"
+                android:textColorHighlight="#AAAEB2"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_14"
+                android:background="@null"
+                android:layout_marginRight="@dimen/dp_10"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40" />
+
+        </LinearLayout>
+        <View
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginTop="@dimen/dp_13"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:background="#56616c" />
+
+        <Button
+            android:id="@+id/save"
+            android:text="保存"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_radius_4_26b275"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+<LinearLayout
+
+    android:layout_marginBottom="@dimen/dp_50"
+    android:layout_marginTop="@dimen/dp_50"
+    android:background="@drawable/shape_radius_4_253445"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_10">
+
+        <ImageView
+            android:layout_width="@dimen/dp_7"
+            android:layout_height="@dimen/dp_14"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:id="@+id/dialog_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:text="--"
+            android:textColor="#26b275"
+            android:textSize="@dimen/sp_18" />
+    </RelativeLayout>
+
+
+    <com.wl.wlflatproject.MView.NumberPickerView
+
+        android:id="@+id/start"
+        android:layout_width="@dimen/dp_300"
+        android:layout_height="@dimen/dp_200"
+        android:layout_marginTop="@dimen/dp_20"
+        android:contentDescription="picker_hour"
+        app:npv_DividerColor="#56616c"
+        app:npv_DividerMarginLeft="@dimen/dp_14"
+        app:npv_HintText=""
+        app:npv_RespondChangeInMainThread="true"
+        app:npv_ShownCount="5"
+        app:npv_TextColorHint="#27B275"
+        app:npv_TextColorNormal="#b3b3b3"
+        app:npv_TextColorSelected="#27B275"
+        app:npv_TextSizeHint="@dimen/sp_12"
+        app:npv_TextSizeNormal="@dimen/sp_16"
+        app:npv_TextSizeSelected="@dimen/sp_22"
+        app:npv_WrapSelectorWheel="false" />
+
+    <Button
+        android:id="@+id/complete"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginLeft="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginRight="@dimen/dp_30"
+        android:background="@drawable/shape_radius_4_26b275"
+        android:text="完成"
+        android:textSize="@dimen/sp_14" />
+
+
+</LinearLayout>
+
+</LinearLayout>

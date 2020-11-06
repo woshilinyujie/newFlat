@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:layout_height="@dimen/dp_257">
+
+    <View
+        android:id="@+id/split_view"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="match_parent" />
+
+    <LinearLayout
+        android:layout_width="@dimen/dp_180"
+        android:layout_height="match_parent"
+        android:background="#253443"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_22"
+            android:layout_marginTop="@dimen/dp_21"
+            android:includeFontPadding="false"
+            android:text="今天"
+            android:textColor="#31ABD3"
+            android:textSize="@dimen/sp_22" />
+
+        <View
+            android:id="@+id/weather_view"
+            android:layout_width="@dimen/dp_65"
+            android:layout_height="@dimen/dp_65"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_14"
+            android:background="@drawable/sun_icon" />
+
+        <TextView
+            android:id="@+id/temp_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_18"
+            android:includeFontPadding="false"
+            android:text="36/29℃"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_26" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/dp_19"
+            android:layout_marginBottom="@dimen/dp_22"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/weather_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="晴天"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_22" />
+
+            <TextView
+                android:id="@+id/air_quality_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@drawable/shape_air_stoke_bg"
+                android:includeFontPadding="false"
+                android:paddingLeft="@dimen/dp_12"
+                android:paddingTop="@dimen/dp_1"
+                android:paddingRight="@dimen/dp_12"
+                android:paddingBottom="@dimen/dp_1"
+                android:text="重度污染"
+                android:textColor="#05A545"
+                android:textSize="@dimen/sp_18" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

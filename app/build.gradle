@@ -1,0 +1,112 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.wl.wlflatproject"
+        minSdkVersion 22
+        targetSdkVersion 28
+        versionCode 21
+        versionName "21"
+//
+//        versionCode 29  //高
+//        versionName "29.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags "-std=c++11"
+            }
+        }
+        sourceSets.main {
+            jni.srcDirs = []
+            jniLibs.srcDirs = ['libs']
+        }
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi-v7a' ,'arm64-v8a'//, 'x86_64',
+        }
+    }
+
+    repositories{
+        flatDir{
+            dirs 'libs'
+        }
+    }
+    signingConfigs {
+        debug {
+            keyAlias 'flat'
+            keyPassword 'wl2019'
+//            storeFile file('../flat-high.keystore')
+//            storeFile file('../flat-low.keystore')
+            storeFile file('../flat.jks')
+            storePassword 'wl2019'
+        }
+        release {
+            keyAlias 'flat'
+            keyPassword 'wl2019'
+            storeFile file('../flat.jks')
+//            storeFile file('../lin.keystore')
+//            storeFile file('../flat-low.keystore')
+//            storeFile file('../flat-high.keystore')
+            storePassword 'wl2019'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.10.2"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = '1.8'
+        targetCompatibility = '1.8'
+    }
+
+    lintOptions {
+        abortOnError false
+        disable 'GoogleAppIndexingWarning'
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.jakewharton:butterknife:10.0.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
+    implementation 'com.rabbitmq:amqp-client:4.8.1'
+    implementation 'com.amap.api:location:latest.integration'
+    implementation 'com.lzy.net:okgo:3.0.4'
+    //Rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.10'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta01'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46'
+    implementation 'com.haibin:calendarview:3.6.6'
+    implementation "org.permissionsdispatcher:permissionsdispatcher:4.3.1"//权限
+    annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.3.1"//权限
+    implementation 'com.yanzhenjie.permission:support:2.0.1'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    compile(name: 'service_wonly', ext: 'aar')
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    compileOnly 'com.google.zxing:core:3.3.3'
+    implementation 'com.xiongmai:libxmfunsdk:1.0.5'
+}

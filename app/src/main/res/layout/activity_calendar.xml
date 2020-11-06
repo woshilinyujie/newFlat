@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.CalendarActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_14"
+        android:layout_marginRight="@dimen/dp_14"
+        android:background="#253443"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_39"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingBottom="@dimen/dp_10">
+
+        <TextView
+            android:id="@+id/current_month_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:text="7月"
+            android:textSize="52sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_17"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/current_week_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="周二"
+                android:textColor="#31ABD3"
+                android:textSize="@dimen/sp_22" />
+
+            <TextView
+                android:id="@+id/current_year_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_6"
+                android:includeFontPadding="false"
+                android:text="2019年"
+                android:textColor="#31ABD3"
+                android:textSize="@dimen/sp_22" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/back_iv"
+            android:layout_width="@dimen/dp_92"
+            android:layout_height="@dimen/dp_60"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/dp_39"
+            android:paddingRight="@dimen/dp_39"
+            android:src="@drawable/gray_arrow_icon" />
+
+    </LinearLayout>
+
+    <com.haibin.calendarview.CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_marginRight="@dimen/dp_14"
+        android:background="#253443"
+        android:paddingBottom="@dimen/dp_8"
+        app:calendar_height="@dimen/dp_80"
+        app:calendar_padding="@dimen/dp_18"
+        app:current_day_lunar_text_color="@color/white"
+        app:current_day_text_color="@color/white"
+        app:current_month_lunar_text_color="#AAAEB2"
+        app:current_month_text_color="@color/white"
+        app:day_text_size="@dimen/sp_24"
+        app:lunar_text_size="@dimen/sp_14"
+        app:month_view="com.wl.wlflatproject.MView.FlatMonthView"
+        app:month_view_auto_select_day="first_day_of_month"
+        app:month_view_show_mode="mode_fix"
+        app:other_month_lunar_text_color="#56616C"
+        app:other_month_text_color="#56616C"
+        app:select_mode="default_mode"
+        app:selected_lunar_text_color="#aaaeb2"
+        app:selected_text_color="@color/white"
+        app:selected_theme_color="#31ABD3"
+        app:week_background="#253443"
+        app:week_bar_height="@dimen/dp_65"
+        app:week_line_background="@color/white"
+        app:week_line_margin="@dimen/dp_38"
+        app:week_text_color="#AAAEB2"
+        app:week_text_size="@dimen/sp_20"
+        app:week_view="com.wl.wlflatproject.MView.FlatMonthView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_14"
+        android:background="#253443"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/dp_38"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_38"
+        android:paddingBottom="@dimen/dp_20">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/lunar_date_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="农历-四月-初三"
+                android:textColor="#31ABD3"
+                android:textSize="@dimen/sp_25" />
+
+            <TextView
+                android:id="@+id/temp_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="29℃"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_25" />
+
+            <TextView
+                android:id="@+id/weather_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_17"
+                android:text="晴"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_25" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_14">
+
+            <TextView
+                android:id="@+id/gan_zhi_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="己亥猪年 辛未月 辛酉日"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_22" />
+
+            <TextView
+                android:id="@+id/location_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="滨江区"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_22" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_14"
+        android:layout_marginTop="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_14"
+        android:background="#253443"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/dp_38"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_38"
+        android:paddingBottom="@dimen/dp_20">
+
+        <View
+            android:layout_width="@dimen/dp_184"
+            android:layout_height="@dimen/dp_87"
+            android:background="@drawable/wanglianfang_img" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp_29"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="一次选择  一生守护"
+                android:textColor="#05A545"
+                android:textSize="@dimen/sp_28"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_17"
+                android:includeFontPadding="false"
+                android:text="One choice   Lifetime guard"
+                android:textColor="#AAAEB2"
+                android:textSize="@dimen/sp_20"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

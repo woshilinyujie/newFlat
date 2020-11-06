@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/dp_7"
+        android:background="#253443"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_45"
+            android:layout_marginTop="@dimen/dp_20"
+            android:paddingLeft="@dimen/dp_10">
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_centerVertical="true"
+                android:background="@drawable/back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:text="专业校正"
+                android:textColor="#26b275"
+                android:textSize="@dimen/sp_20" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/open_degree"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="最大开门角度"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/open_degree_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:text="--°"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gray_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/open_speed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="开门速度"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/open_speed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:text="--°"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gray_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/close_speed"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="关门速度"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/close_speed_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:text="--°"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gray_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/left_repair_degree"
+            android:paddingRight="@dimen/dp_11"
+            android:paddingLeft="@dimen/dp_11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_centerVertical="true"
+                android:text="关门位置修复（左开门）"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/left_repair_degree_tv"
+                android:text="--°"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:background="@drawable/gray_arrow_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18" />
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="#56616c"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/right_repair_degree"
+            android:paddingRight="@dimen/dp_11"
+            android:paddingLeft="@dimen/dp_11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_centerVertical="true"
+                android:text="关门位置修复（右开门）"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/right_repair_degree_tv"
+                android:text="--°"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:background="@drawable/gray_arrow_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18" />
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="#56616c"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"/>
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>
