@@ -19,6 +19,7 @@ public class SetDialog extends Dialog {
     private String s1[]=new String[]{"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15"};//速度
     private String s2[]=new String[]{"72","77","82","87"};//开门角度
     private String s3[]=new String[]{"2","4","6","8","10","12","14","16","18","20","22","24","26","28","30"};//等待时间
+    private String s4[]=new String[]{"减速一档","减速二档","减速三档","减速关闭"};//关门力度
     private TextView name;
     private View back;
     private Button complete;
@@ -82,6 +83,10 @@ public class SetDialog extends Dialog {
             case 6://关门速度
                 start.refreshByNewDisplayedValues(s1);
                 name.setText("关门速度");
+                break;
+            case 8://关门力度
+                start.refreshByNewDisplayedValues(s4);
+                name.setText("关门力度");
                 break;
         }
         show();

@@ -37,6 +37,8 @@ public class SettingActivity extends AppCompatActivity {
     RelativeLayout openDegree;
     @BindView(R.id.open_speed)
     RelativeLayout openSpeed;
+    @BindView(R.id.close_power)
+    RelativeLayout closePower;
     @BindView(R.id.close_speed)
     RelativeLayout closeSpeed;
     @BindView(R.id.left_repair_degree_tv)
@@ -49,6 +51,8 @@ public class SettingActivity extends AppCompatActivity {
     TextView openSpeedTv;
     @BindView(R.id.close_speed_tv)
     TextView closeSpeedTv;
+    @BindView(R.id.close_power_tv)
+    TextView closePowerTv;
     private String value;
     private SetDialog setDialog;
     private SetDialog.ResultListener listener;
@@ -71,6 +75,7 @@ public class SettingActivity extends AppCompatActivity {
         openDegreeTv.setText(intent.getStringExtra("openDegree"));
         openSpeedTv.setText(intent.getStringExtra("openDoorSpeed"));
         closeSpeedTv.setText(intent.getStringExtra("closeDoorSpeed"));
+        closePowerTv.setText(intent.getStringExtra("closePower"));
         listener = new SetDialog.ResultListener() {
             @Override
             public void onResult(String value,int flag) {
@@ -122,6 +127,9 @@ public class SettingActivity extends AppCompatActivity {
                 if(waitDialogTime!=null&&waitDialogTime.isShowing())
                     waitDialogTime.dismiss();
                 break;
+            case 8:
+                Toast.makeText(SettingActivity.this,"设置成功",Toast.LENGTH_SHORT).show();
+                break;
 
         }
     }
@@ -132,7 +140,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.back, R.id.left_repair_degree, R.id.right_repair_degree, R.id.open_degree, R.id.open_speed, R.id.close_speed})
+    @OnClick({R.id.back, R.id.left_repair_degree, R.id.right_repair_degree, R.id.open_degree, R.id.open_speed,R.id.close_power, R.id.close_speed})
     public void onViewClicked(View view) {
         if (setDialog == null) {
             setDialog = new SetDialog(SettingActivity.this, R.style.mDialog);
@@ -141,6 +149,9 @@ public class SettingActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.back:
                 finish();
+                break;
+            case R.id.close_power:
+                setDialog.show(8);
                 break;
             case R.id.left_repair_degree:
                 setDialog.show(1);

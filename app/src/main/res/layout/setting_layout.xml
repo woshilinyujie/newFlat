@@ -156,6 +156,48 @@
                 android:background="#56616c" />
         </RelativeLayout>
 
+
+        <RelativeLayout
+            android:id="@+id/close_power"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="关门力度"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/close_power_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/dp_25"
+                android:text="--°"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gray_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+
+
         <RelativeLayout
             android:id="@+id/left_repair_degree"
             android:paddingRight="@dimen/dp_11"

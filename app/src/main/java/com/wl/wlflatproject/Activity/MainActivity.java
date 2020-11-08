@@ -96,7 +96,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, DevMonitorContract.IDevMonitorView {
-    public static boolean isHIgh =false;   //是否是高配
+    public static boolean isHIgh =true;   //是否是高配
     public static boolean isSystem = false;   //是否是系统签名
     public static boolean isChuanMi = false;   //是否是对标创米智能门
     public static int checkNum = 0;//人流检测人数
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public static String videOldWIfi;
     private String leftDegreeRepair = "--";//右角度修复值
     private String rightDegreeRepair = "--";//左角度修复值
+    private String closePower = "--";//关门力度
     private boolean watherClick = false;
     static String lcddisplay = "/sys/gpio_test_attr/lcd_power";
     File file = new File(lcddisplay);
@@ -423,6 +424,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 intent.putExtra("closeDoorSpeed", closeDoorSpeed);
                 intent.putExtra("leftDegreeRepair", leftDegreeRepair);
                 intent.putExtra("rightDegreeRepair", rightDegreeRepair);
+                intent.putExtra("closePower", closePower);
                 startActivity(intent);
                 break;
             case R.id.swtich:
@@ -682,6 +684,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         changKai.setBackgroundResource(R.drawable.video);
                                     }
                                     break;
+                                case 9://关门力度
+                                    closePower = split[1];
+                                    break;
                             }
                         } else if (data.contains("AT+LEFTANGLEREPAIR=1")) { //左角度修复值
                             if (setMsgBean == null)
@@ -758,7 +763,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                     devMonitorPresenter.startMonitor();
                                 }
                             }
-                        } else if (data.contains("AT+CDECT=")) {
+                        } else if (data.contains("AT+CLOSESTRENGTH=1")) {   //关门力度
+                            if (setMsgBean == null)
+                                setMsgBean = new SetMsgBean();
+                            if (!TextUtils.isEmpty(msg))
+                                openDoorSpeed = msg;
+                            setMsgBean.setFlag(8);
+                            EventBus.getDefault().post(setMsgBean);
+                        }else if (data.contains("AT+CDECT=")) {
                             String[] split = data.split("=");
                             String[] split1 = split[1].split(",");
                             switch (split1[0]) {
@@ -882,6 +894,22 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             case 7://开门
                 isDbugOpen = true;
                 serialPort.sendDate("+COPEN:1\r\n".getBytes());
+                break;
+            case 8://关门力度
+                switch (msg){
+                    case "减速一档":
+                        serialPort.sendDate("+CLOSESTRENGTH:9\r\n".getBytes());
+                        break;
+                    case "减速二档":
+                        serialPort.sendDate("+CLOSESTRENGTH:8\r\n".getBytes());
+                        break;
+                    case "减速三档":
+                        serialPort.sendDate("+CLOSESTRENGTH:7\r\n".getBytes());
+                        break;
+                    case "减速关闭":
+                        serialPort.sendDate("+CLOSESTRENGTH:0\r\n".getBytes());
+                        break;
+                }
                 break;
             case 9://开启人流检测
                 if(!QtimesServiceManager.instance().isServerActive()){
