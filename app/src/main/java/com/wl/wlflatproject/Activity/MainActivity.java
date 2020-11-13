@@ -97,7 +97,7 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, DevMonitorContract.IDevMonitorView {
     public static boolean isHIgh =true;   //是否是高配
-    public static boolean isSystem = false;   //是否是系统签名
+    public static boolean isSystem = true;   //是否是系统签名
     public static boolean isChuanMi = false;   //是否是对标创米智能门
     public static int checkNum = 0;//人流检测人数
     public static int checkNumRect = 0;//重置人流检测

@@ -6,11 +6,11 @@ android {
         applicationId "com.wl.wlflatproject"
         minSdkVersion 22
         targetSdkVersion 28
-        versionCode 21
-        versionName "21"
+//        versionCode 21
+//        versionName "21"
 //
-//        versionCode 29  //高
-//        versionName "29.0"
+        versionCode 32  //高
+        versionName "32.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -36,18 +36,18 @@ android {
         debug {
             keyAlias 'flat'
             keyPassword 'wl2019'
-//            storeFile file('../flat-high.keystore')
+            storeFile file('../flat-high.keystore')
 //            storeFile file('../flat-low.keystore')
-            storeFile file('../flat.jks')
+//            storeFile file('../flat.jks')
             storePassword 'wl2019'
         }
         release {
             keyAlias 'flat'
-            keyPassword 'wl2019'
-            storeFile file('../flat.jks')
+//            keyPassword 'wl2019'
+//            storeFile file('../flat.jks')
 //            storeFile file('../lin.keystore')
 //            storeFile file('../flat-low.keystore')
-//            storeFile file('../flat-high.keystore')
+            storeFile file('../flat-high.keystore')
             storePassword 'wl2019'
         }
     }

@@ -115,16 +115,30 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
                 @Override
                 public void onUpdateDevState(String devId) {
                     XMDevInfo xmDevInfo = DevDataCenter.getInstance().getDevInfo(devId);
+                    Log.e("摄像头状态--",xmDevInfo.getDevState()+"");
                     if (xmDevInfo.getDevState() != 0) {
                         if (xmDevInfo.getDevState() == XMDevInfo.SLEEP_UNWAKE) {
                             Toast.makeText(iDevMonitorView.getContext(), "设备不在线", Toast.LENGTH_SHORT).show();
+                            if(mWaitDlg1!=null&&mWaitDlg1.isShowing())
+                                mWaitDlg1.dismiss();
+                            if(devList.size()!=0){
+                                Toast.makeText(iDevMonitorView.getContext(), "设备不在线,摄像头id--"+devList.get(0), Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(iDevMonitorView.getContext(), "设备不在线,摄像头id--null", Toast.LENGTH_SHORT).show();
+                            }
                             return;
                         }
                         mediaManager.setStreamType(SDKCONST.StreamType.Extra);
                         mediaManager.setChnId(channelId);
                         mediaManager.startMonitor();
                     }else{
-                        Toast.makeText(iDevMonitorView.getContext(), "设备不在线", Toast.LENGTH_SHORT).show();
+                        if(mWaitDlg1!=null&&mWaitDlg1.isShowing())
+                            mWaitDlg1.dismiss();
+                        if(devList.size()!=0){
+                            Toast.makeText(iDevMonitorView.getContext(), "设备不在线,摄像头id--"+devList.get(0), Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(iDevMonitorView.getContext(), "设备不在线,摄像头id--null", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -160,7 +174,9 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
 
     @Override
     public void stopMonitor() {
-        mediaManager.stopPlay();
+        if(mediaManager!=null){
+            mediaManager.stopPlay();
+        }
     }
 
     @Override
