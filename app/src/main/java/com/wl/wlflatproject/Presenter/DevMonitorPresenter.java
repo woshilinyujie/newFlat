@@ -325,7 +325,7 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
             Log.e("摄像头------", state + "");
             time.setVisibility(View.GONE);
             setTalkSound(false);
-            openVoice();
+//            openVoice();
             if (fullScreen)
                 iDevMonitorView.getActivity().setFullScreen();
         } else if (state == 4) {

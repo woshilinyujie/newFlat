@@ -146,6 +146,9 @@ public class SettingActivity1 extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         normalDialog.dismiss();
+                        if (!QtimesServiceManager.instance().isServerActive()) {
+                            QtimesServiceManager.instance().connect(SettingActivity1.this);
+                        }
                         Intent intent2 = new Intent();
                         intent2.setClassName("com.qtimes.wonly", "com.qtimes.wonly.activity.SystemInfoActivity");
                         startActivity(intent2);
@@ -187,6 +190,9 @@ public class SettingActivity1 extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         normalDialog.dismiss();
+                        if (!QtimesServiceManager.instance().isServerActive()) {
+                            QtimesServiceManager.instance().connect(SettingActivity1.this);
+                        }
                         Intent intent2 = new Intent();
                         intent2.setClassName("com.qtimes.wonly", "com.qtimes.wonly.activity.device.DevACActivity");
                         startActivity(intent2);

@@ -1471,6 +1471,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     public void writeFile(File file, String mode) {
         try {
+            if(isHIgh){
+                return;
+            }
             if (fout == null) {
                 fout = new FileOutputStream(file);
             }
