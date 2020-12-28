@@ -40,7 +40,7 @@
 
 
         <RelativeLayout
-            android:id="@+id/wait_time"
+            android:id="@+id/people_check"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
             android:paddingLeft="@dimen/dp_11"

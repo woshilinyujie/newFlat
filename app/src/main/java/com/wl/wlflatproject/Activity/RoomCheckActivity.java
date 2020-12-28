@@ -25,8 +25,8 @@ public class RoomCheckActivity extends AppCompatActivity {
     RelativeLayout back;
     @BindView(R.id.switch_bt)
     SwitchButton switchBt;
-    @BindView(R.id.wait_time)
-    RelativeLayout waitTime;
+    @BindView(R.id.people_check)
+    RelativeLayout peopleCheck;
     @BindView(R.id.num_tv)
     TextView numTv;
     @BindView(R.id.num_rl)

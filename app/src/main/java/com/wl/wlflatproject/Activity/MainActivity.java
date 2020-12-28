@@ -260,6 +260,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 case 9:
                     setting.setVisibility(View.GONE);
                     break;
+                case 10:
+                    if(!QtimesServiceManager.instance().isServerActive()){
+                        QtimesServiceManager.instance().connect(MainActivity.this);
+                    }
+                    handler.sendEmptyMessageDelayed(10,10000);
+                    break;
                 case 13:
                     hideBottomUIMenu();
                     break;
@@ -310,8 +316,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private void initData() {
         devMonitorPresenter = new DevMonitorPresenter(this,bg,funView,time);
         devMonitorPresenter.setChannelId(0);
-
-
         normalDialog = new NormalDialog(this, R.style.mDialog);
         if (isHIgh) {
             fHeight= DpUtils.dip2px(this,300);
@@ -405,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         handler.sendEmptyMessage(4);
         handler.sendEmptyMessageDelayed(6, 1000);
         handler.sendEmptyMessageDelayed(14, 3600 * 1000 * 2);
+        handler.sendEmptyMessageDelayed(10,10000);
         codeDialog = new CodeDialog(MainActivity.this, R.style.ActionSheetDialogStyle);
     }
 
@@ -1315,8 +1320,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> data) {
-                        AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
                         checkUpdate();
                         if (mLocationUtils != null) {
                             mLocationUtils.startLocation();

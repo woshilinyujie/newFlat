@@ -250,6 +250,18 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
         <RelativeLayout
             android:visibility="gone"
             android:id="@+id/anti_pinch"
@@ -283,7 +295,6 @@
 
         <RelativeLayout
             android:visibility="gone"
-            android:layout_marginBottom="50dp"
             android:id="@+id/restart"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_60"
@@ -295,6 +306,36 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="系统重启"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16" />
+
+
+            <ImageView
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/gray_arrow_icon" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:layout_alignParentBottom="true"
+                android:background="#56616c" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_marginBottom="50dp"
+            android:id="@+id/experience"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:paddingLeft="@dimen/dp_11"
+            android:paddingRight="@dimen/dp_11">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="体验改善"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/sp_16" />
 

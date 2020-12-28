@@ -49,6 +49,8 @@ public class SettingActivity1 extends AppCompatActivity {
     RelativeLayout restart;
     @BindView(R.id.anti_pinch)
     RelativeLayout antiPinch;
+    @BindView(R.id.experience)
+    RelativeLayout experience;
     private String value;
     private SetDialog setDialog;
     private SetDialog.ResultListener listener;
@@ -72,6 +74,7 @@ public class SettingActivity1 extends AppCompatActivity {
             antiPinch.setVisibility(View.VISIBLE);
             restart.setVisibility(View.VISIBLE);
             engineeringMode.setVisibility(View.VISIBLE);
+            experience.setVisibility(View.VISIBLE);
             SPUtil instance = SPUtil.getInstance(this);
             if (instance.getSettingParam("open", false)) {
                 numTv.setText("开");
@@ -114,7 +117,7 @@ public class SettingActivity1 extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
+    @OnClick({R.id.experience,R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
     public void onViewClicked(View view) {
         if (setDialog == null) {
             setDialog = new SetDialog(SettingActivity1.this, R.style.mDialog);
@@ -135,6 +138,25 @@ public class SettingActivity1 extends AppCompatActivity {
                 break;
             case R.id.wait_time:
                 setDialog.show(4);
+                break;
+            case R.id.experience:
+                if (normalDialog == null)
+                    normalDialog = new NormalDialog(this, R.style.mDialog);
+                normalDialog.show();
+                normalDialog.setTitleText("体验改善界面");
+                normalDialog.setContentText("点击确定进入体验改善界面");
+                normalDialog.getConfirmTv().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalDialog.dismiss();
+                        if (!QtimesServiceManager.instance().isServerActive()) {
+                            QtimesServiceManager.instance().connect(SettingActivity1.this);
+                        }
+                        Intent intent2 = new Intent();
+                        intent2.setClassName("com.qtimes.wonly", "com.qtimes.wonly.activity.ticket.TicketListActivity");
+                        startActivity(intent2);
+                    }
+                });
                 break;
             case R.id.system://系统信息界面
                 if (normalDialog == null)

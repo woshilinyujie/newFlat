@@ -1,6 +1,7 @@
 package com.wl.wlflatproject.Presenter;
 
 import android.content.Context;
+import android.media.AudioManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
@@ -46,6 +47,7 @@ import java.util.List;
  */
 public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implements
         DevMonitorContract.IDevMonitorPresenter, MediaManager.OnMediaManagerYUVListener {
+    private final AudioManager mAudioManager;
     private MonitorManager mediaManager;
     private DevMonitorContract.IDevMonitorView iDevMonitorView;
     private int playState = 100;
@@ -64,6 +66,7 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
     private final DevSnConnectPresenter devSnConnectPresenter;
     private List<String> devList = new ArrayList();
     private final DevListConnectPresenter devListConnectPresenter;
+    private final int streamVolume;
 
     public DevMonitorPresenter(DevMonitorContract.IDevMonitorView iDevMonitorView, ImageView bg, RelativeLayout mFunVideoView, TextView tiem) {
         this.mFunVideoView = mFunVideoView;
@@ -75,6 +78,8 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
         String dirName = File.separator + ("com.wl.wlflatproject".hashCode() & 0x7fffffff);
         faceModePath = FaceModelUtils.moveAssertFaceModelToSDCard(iDevMonitorView.getContext(),
                 Environment.getExternalStorageDirectory().getPath() + dirName);
+        mAudioManager = (AudioManager)iDevMonitorView.getContext(). getSystemService(Context.AUDIO_SERVICE);
+        streamVolume = mAudioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
     }
 
     @Override
@@ -89,6 +94,7 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
 
     @Override
     public void initMonitor(ViewGroup viewGroup) {
+
         mediaManager = manager.createMonitorPlayer(viewGroup, getDevId());
         /**
          * 设置设备列表缩略图保存路径，必须要在视频出图之前调用
@@ -99,6 +105,7 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
 
     @Override
     public void startMonitor() {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0);
         if (wifiManager == null)
             wifiManager = (WifiManager) iDevMonitorView.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
@@ -174,6 +181,7 @@ public class DevMonitorPresenter extends XMBasePresenter<DeviceManager> implemen
 
     @Override
     public void stopMonitor() {
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, streamVolume, 0);
         if(mediaManager!=null){
             mediaManager.stopPlay();
         }
