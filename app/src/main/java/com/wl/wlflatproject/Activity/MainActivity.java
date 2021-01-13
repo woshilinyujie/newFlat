@@ -680,6 +680,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         changkaiFlag = 2;
                                         changKai.setText("取消常开");
                                         changKai.setBackgroundResource(R.drawable.lock);
+                                        if (QtimesServiceManager.instance().isServerActive()) {
+                                            QtimesServiceManager.instance().setLongOpenState(false);
+                                        }
                                     }
                                     break;
                                 case 8://没有开启常开
@@ -687,6 +690,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         changKai.setText("常开");
                                         changkaiFlag = 1;
                                         changKai.setBackgroundResource(R.drawable.video);
+                                        if (QtimesServiceManager.instance().isServerActive()) {
+                                            QtimesServiceManager.instance().setLongOpenState(true);
+                                        }
                                     }
                                     break;
                                 case 9://关门力度
