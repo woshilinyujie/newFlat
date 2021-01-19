@@ -12,12 +12,13 @@
 
     <ImageView
         android:id="@+id/back"
-        android:background="@drawable/gray_arrow_icon"
-        android:layout_marginRight="@dimen/dp_30"
-        android:layout_gravity="right"
-        android:layout_marginTop="@dimen/dp_20"
         android:layout_width="@dimen/dp_15"
-        android:layout_height="@dimen/dp_30" />
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@drawable/gray_arrow_icon"
+        android:rotation="180"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,19 +50,11 @@
         android:layout_marginRight="@dimen/dp_15"
         android:layout_weight="1">
 
-        <View
-            android:id="@+id/today_weather_view"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_100"
-            android:background="@drawable/sun_icon"
-            android:layout_centerVertical="true" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/today_weather_view"
-            >
+            android:layout_toRightOf="@id/today_weather_view">
 
             <TextView
                 android:id="@+id/today_temp_tv"
@@ -81,16 +74,15 @@
                 android:textSize="@dimen/sp_28" />
         </LinearLayout>
 
-
         <LinearLayout
 
             android:id="@+id/today_temp_ll"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="right"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true">
+            android:layout_centerVertical="true"
+            android:gravity="right"
+            android:orientation="vertical">
 
             <TextView
 
@@ -106,11 +98,19 @@
                 android:id="@+id/today_extent_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
                 android:text="-°/-°"
-                android:textSize="@dimen/sp_20"
                 android:textColor="@color/white"
-                android:layout_marginTop="@dimen/dp_10" />
+                android:textSize="@dimen/sp_20" />
         </LinearLayout>
+
+
+        <View
+            android:id="@+id/today_weather_view"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:layout_centerVertical="true"
+            android:background="@drawable/sun_icon" />
 
     </RelativeLayout>
 
@@ -120,69 +120,69 @@
         android:paddingLeft="@dimen/dp_25"
         android:paddingRight="@dimen/dp_15">
 
-        <View
-            android:id="@+id/second_day_view"
-            android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_50"
-            android:background="@drawable/sun_icon" />
-
         <TextView
             android:id="@+id/second_weather_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="- · -"
-            android:textSize="@dimen/sp_20"
-            android:textColor="@color/white"
-            android:layout_toRightOf="@id/second_day_view"
+            android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/second_day_tv"
+            android:layout_toRightOf="@id/second_day_view"
             android:gravity="center"
-            android:layout_centerVertical="true" />
+            android:text="- · -"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
 
         <TextView
             android:id="@+id/second_day_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-° /  -°"
-            android:textSize="@dimen/sp_20"
-            android:textColor="@color/white"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
+            android:layout_centerVertical="true"
+            android:text="-° /  -°"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
+
+        <View
+            android:id="@+id/second_day_view"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:background="@drawable/sun_icon" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_25"
-        android:paddingRight="@dimen/dp_15"
+        android:layout_marginTop="@dimen/dp_10"
         android:layout_marginBottom="@dimen/dp_100"
-        android:layout_marginTop="@dimen/dp_10">
+        android:paddingLeft="@dimen/dp_25"
+        android:paddingRight="@dimen/dp_15">
+
+        <TextView
+            android:id="@+id/third_weather_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/third_day_tv"
+            android:layout_toRightOf="@id/third_day_view"
+            android:gravity="center"
+            android:text="- · -"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
+
+        <TextView
+            android:id="@+id/third_day_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="-° /  -°"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_20" />
 
         <View
             android:id="@+id/third_day_view"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
             android:background="@drawable/sun_icon" />
-
-        <TextView
-            android:id="@+id/third_weather_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="- · -"
-            android:textSize="@dimen/sp_20"
-            android:textColor="@color/white"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@id/third_day_view"
-            android:layout_toLeftOf="@+id/third_day_tv"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/third_day_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="-° /  -°"
-            android:textSize="@dimen/sp_20"
-            android:textColor="@color/white"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" />
     </RelativeLayout>
 </LinearLayout>

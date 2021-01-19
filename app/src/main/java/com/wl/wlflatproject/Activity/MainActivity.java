@@ -7,7 +7,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
@@ -31,8 +30,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.amap.api.location.AMapLocation;
 import com.google.gson.Gson;
 import com.lib.EFUN_ERROR;
@@ -79,9 +80,11 @@ import com.xm.linke.face.FaceFeature;
 import com.xm.ui.dialog.XMPromptDlg;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,7 +99,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, DevMonitorContract.IDevMonitorView {
-    public static boolean isHIgh =true;   //是否是高配
+    public static boolean isHIgh = true;   //是否是高配
     public static boolean isSystem = true;   //是否是系统签名
     public static boolean isChuanMi = false;   //是否是对标创米智能门
     public static int checkNum = 0;//人流检测人数
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     String s = dateUtils.dateFormat6(System.currentTimeMillis());
                     time.setText(s);
                     int fdCount = getFdCount();
-                    Log.e("句柄数量---",fdCount+"");
+                    Log.e("句柄数量---", fdCount + "");
                     handler.sendEmptyMessageDelayed(4, 1000);
                     break;
                 case 5:
@@ -261,10 +264,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     setting.setVisibility(View.GONE);
                     break;
                 case 10:
-                    if(!QtimesServiceManager.instance().isServerActive()){
+                    if (!QtimesServiceManager.instance().isServerActive()) {
                         QtimesServiceManager.instance().connect(MainActivity.this);
                     }
-                    handler.sendEmptyMessageDelayed(10,10000);
+                    handler.sendEmptyMessageDelayed(10, 10000);
                     break;
                 case 13:
                     hideBottomUIMenu();
@@ -293,6 +296,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private QtimesServiceManager.QtimesDoorServiceListener checkListener;
     private int screenHight;
     private DevMonitorPresenter devMonitorPresenter;
+    private String mTodayCode = "";
+    private String mSecondCode = "";
+    private String mThirdCode = "";
 
 
     @SuppressLint("InvalidWakeLockTag")
@@ -314,11 +320,11 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     private void initData() {
-        devMonitorPresenter = new DevMonitorPresenter(this,bg,funView,time);
+        devMonitorPresenter = new DevMonitorPresenter(this, bg, funView, time);
         devMonitorPresenter.setChannelId(0);
         normalDialog = new NormalDialog(this, R.style.mDialog);
         if (isHIgh) {
-            fHeight= DpUtils.dip2px(this,300);
+            fHeight = DpUtils.dip2px(this, 300);
             setScreen();
             checkNum = SPUtil.getInstance(this).getSettingParam("checkNum", 0);
             checkNumRect = SPUtil.getInstance(this).getSettingParam("checkNumRect", 0);
@@ -347,14 +353,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             };
             if (instance.getSettingParam("open", false)) {
                 open.setVisibility(View.VISIBLE);
-                if(!QtimesServiceManager.instance().isServerActive()){
+                if (!QtimesServiceManager.instance().isServerActive()) {
                     QtimesServiceManager.instance().connect(this);
                 }
                 QtimesServiceManager.instance().setListener(checkListener);
                 handler.sendEmptyMessageAtTime(8, 1000);
             }
-        }else{
-            fHeight= DpUtils.dip2px(this,500);
+        } else {
+            fHeight = DpUtils.dip2px(this, 500);
         }
         WindowManager windowManager = getWindowManager();
         screenWidth = windowManager.getDefaultDisplay().getWidth();
@@ -409,12 +415,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         handler.sendEmptyMessage(4);
         handler.sendEmptyMessageDelayed(6, 1000);
         handler.sendEmptyMessageDelayed(14, 3600 * 1000 * 2);
-        handler.sendEmptyMessageDelayed(10,10000);
+        handler.sendEmptyMessageDelayed(10, 10000);
         codeDialog = new CodeDialog(MainActivity.this, R.style.ActionSheetDialogStyle);
     }
 
 
-    @OnClick({R.id.swtich, R.id.changkai, R.id.setting,R.id.lock_bt, R.id.onoff_bt,
+    @OnClick({R.id.swtich, R.id.changkai, R.id.setting, R.id.lock_bt, R.id.onoff_bt,
             R.id.bufang_bt, R.id.fun_view,
             R.id.weather_ll, R.id.calendar_ll, R.id.video_iv})
     public void onViewClicked(View view) {
@@ -458,7 +464,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 handler.sendEmptyMessageDelayed(13, 500);
                 break;
             case R.id.video_iv:
-                if (!(devMonitorPresenter.getPlayState()==0)) {
+                if (!(devMonitorPresenter.getPlayState() == 0)) {
                     handler.removeMessages(1);
                     handler.sendEmptyMessageDelayed(1, 60000);
                     if (devMonitorPresenter.getVideoUuid() == null) {
@@ -552,7 +558,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 if (devMonitorPresenter.getVideoUuid() == null) {
                                     Toast.makeText(MainActivity.this, "请检查摄像头是否配置wifi", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    if (!(devMonitorPresenter.getPlayState()!=0)){
+                                    if (!(devMonitorPresenter.getPlayState() != 0)) {
                                         devMonitorPresenter.setScreen(true);
                                         devMonitorPresenter.startMonitor();
                                     }
@@ -769,7 +775,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             if (devMonitorPresenter.getVideoUuid() == null) {
                                 Toast.makeText(MainActivity.this, "请检查摄像头是否配置wifi", Toast.LENGTH_SHORT).show();
                             } else {
-                                if (!(devMonitorPresenter.getPlayState()!=0)) {
+                                if (!(devMonitorPresenter.getPlayState() != 0)) {
                                     devMonitorPresenter.setScreen(true);
                                     devMonitorPresenter.startMonitor();
                                 }
@@ -781,7 +787,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 openDoorSpeed = msg;
                             setMsgBean.setFlag(8);
                             EventBus.getDefault().post(setMsgBean);
-                        }else if (data.contains("AT+CDECT=")) {
+                        } else if (data.contains("AT+CDECT=")) {
                             String[] split = data.split("=");
                             String[] split1 = split[1].split(",");
                             switch (split1[0]) {
@@ -799,7 +805,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         if (devMonitorPresenter.getVideoUuid() == null) {
                                             Toast.makeText(MainActivity.this, "请检查摄像头是否配置wifi", Toast.LENGTH_SHORT).show();
                                         } else {
-                                            if (!(devMonitorPresenter.getPlayState()==0)) {
+                                            if (!(devMonitorPresenter.getPlayState() == 0)) {
                                                 devMonitorPresenter.setScreen(true);
                                                 devMonitorPresenter.startMonitor();
                                             }
@@ -829,8 +835,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             try {
                                 String[] split = data.split("=");
                                 if (split.length > 1) {
-                                   devMonitorPresenter.setVideoUuid(split[1]);
-                                   devMonitorPresenter.initMonitor(funView);
+                                    devMonitorPresenter.setVideoUuid(split[1]);
+                                    devMonitorPresenter.initMonitor(funView);
                                 }
                             } catch (Exception e) {
 
@@ -907,7 +913,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 serialPort.sendDate("+COPEN:1\r\n".getBytes());
                 break;
             case 8://关门力度
-                switch (msg){
+                switch (msg) {
                     case "减速一档":
                         serialPort.sendDate("+CLOSESTRENGTH:9\r\n".getBytes());
                         break;
@@ -923,7 +929,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 }
                 break;
             case 9://开启人流检测
-                if(!QtimesServiceManager.instance().isServerActive()){
+                if (!QtimesServiceManager.instance().isServerActive()) {
                     QtimesServiceManager.instance().connect(this);
                 }
                 QtimesServiceManager.instance().setListener(checkListener);
@@ -1041,7 +1047,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
 
-
     public class NetStatusReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -1116,7 +1121,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             locationTv.setText(locationBuffer);
             //今日天气
             //ICON Text
-            setWeatherIcon(todayWeatherView, livesBean.getWeather());
+            mTodayCode = setWeatherIcon(todayWeatherView, livesBean.getWeather());
             //实时时间
             String dayOrMonthOrYear = DateUtils.getInstance().getDayOrMonthOrYear(System.currentTimeMillis());
             setWeatherText(todayWeatherTv, livesBean.getWeather(), dayOrMonthOrYear, false);
@@ -1149,6 +1154,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 bundle.putString("param5", secondDayTv.getText().toString());
                 bundle.putString("param6", thirdWeatherTv.getText().toString());
                 bundle.putString("param7", thirdDayTv.getText().toString());
+                bundle.putString("param8", mTodayCode);
+                bundle.putString("param9", mSecondCode);
+                bundle.putString("param10", mThirdCode);
                 Intent intent = new Intent(MainActivity.this, WeatherActivity1.class);
                 intent.putExtra("bundle", bundle);
                 startActivity(intent);
@@ -1166,7 +1174,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
             //后两天天气
             GDFutureWeatherBean.ForecastsBean.CastsBean secondWeather = beanCasts.get(1);
-            setWeatherIcon(secondDayView, night ? secondWeather.getNightweather() : secondWeather.getDayweather());
+            mSecondCode = setWeatherIcon(secondDayView, night ? secondWeather.getNightweather() : secondWeather.getDayweather());
             setWeatherText(secondDayTv,
                     secondWeatherTv,
                     "明天",
@@ -1174,7 +1182,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     secondWeather.getDaytemp(),
                     secondWeather.getNighttemp());
             GDFutureWeatherBean.ForecastsBean.CastsBean thirdWeather = beanCasts.get(2);
-            setWeatherIcon(thirdDayView, night ? thirdWeather.getNightweather() : thirdWeather.getDayweather());
+            mThirdCode = setWeatherIcon(thirdDayView, night ? thirdWeather.getNightweather() : thirdWeather.getDayweather());
             setWeatherText(thirdDayTv,
                     thirdWeatherTv,
                     "后天",
@@ -1190,7 +1198,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
      * @param view
      * @param weather
      */
-    private void setWeatherIcon(View view, String weather) {
+    private String setWeatherIcon(View view, String weather) {
         String code = LocationUtils.weatherCode(weather);
         switch (code) {
             case "1":
@@ -1207,6 +1215,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 break;
             default:
         }
+        return code;
     }
 
     /**
@@ -1369,9 +1378,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         if (isHIgh) {
             bodyBean.setEndpoint_type("WL025S1-H");
         } else {
-            if(isSystem){
+            if (isSystem) {
                 bodyBean.setEndpoint_type("WL025S1-Sign");
-            }else{
+            } else {
                 bodyBean.setEndpoint_type("WL025S1");
             }
         }
@@ -1396,8 +1405,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 try {
                     UpdateAppBean updateAppBean = gson.fromJson(s, UpdateAppBean.class);
                     if (Integer.parseInt(updateAppBean.getPUS().getBody().getNew_version()) > version) {
-                        if(!isSystem){
-                            if(!normalDialog.isShowing()){
+                        if (!isSystem) {
+                            if (!normalDialog.isShowing()) {
                                 normalDialog.show();
                                 normalDialog.getConfirmTv().setOnClickListener(new View.OnClickListener() {
                                     @Override
@@ -1408,12 +1417,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                     }
                                 });
                             }
-                        }else{
+                        } else {
                             listener.success(updateAppBean);
                         }
                     }
-                }catch (Exception e){
-                    Log.e("升级接口报错",e.toString());
+                } catch (Exception e) {
+                    Log.e("升级接口报错", e.toString());
                 }
             }
 
@@ -1438,15 +1447,15 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
             @Override
             public void onSuccess(Response<File> response) {
-                if(mDownloadDialog!=null &&mDownloadDialog.isShowing()){
+                if (mDownloadDialog != null && mDownloadDialog.isShowing()) {
                     mDownloadDialog.dismiss();
                     mDownloadDialog = null;
                 }
                 String filePath = response.body().getAbsolutePath();
-                if(!isSystem){
+                if (!isSystem) {
                     Intent intent = IntentUtil.getInstallAppIntent(MainActivity.this, filePath);
                     startActivity(intent);
-                }else{
+                } else {
                     boolean b = installApp(filePath);
                 }
             }
@@ -1480,7 +1489,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
     public void writeFile(File file, String mode) {
         try {
-            if(isHIgh){
+            if (isHIgh) {
                 return;
             }
             if (fout == null) {
@@ -1495,8 +1504,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             e.printStackTrace();
         }
     }
-
-
 
 
     protected void hideBottomUIMenu() {
@@ -1523,14 +1530,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
 
-    public  boolean installApp(String apkPath) {
+    public boolean installApp(String apkPath) {
         Process process = null;
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
         StringBuilder successMsg = new StringBuilder();
         StringBuilder errorMsg = new StringBuilder();
         try {
-            process = new ProcessBuilder("pm", "install","-r","-i","com.wl.wlflatproject", apkPath).start();
+            process = new ProcessBuilder("pm", "install", "-r", "-i", "com.wl.wlflatproject", apkPath).start();
             successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
             errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String s;
@@ -1541,7 +1548,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 errorMsg.append(s);
             }
         } catch (Exception e) {
-           Log.e("静默安装报错",e.toString());
+            Log.e("静默安装报错", e.toString());
         } finally {
             try {
                 if (successResult != null) {
@@ -1557,20 +1564,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 process.destroy();
             }
         }
-        Log.e("result",""+errorMsg.toString());
+        Log.e("result", "" + errorMsg.toString());
         return successMsg.toString().equalsIgnoreCase("success");
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
     @Override
@@ -1583,10 +1579,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     devMonitorPresenter.startMonitor();
                 }
             });
-        }else if (errorId < 0){
-            Toast.makeText(MainActivity.this,"打开视频失败",Toast.LENGTH_SHORT).show();
+        } else if (errorId < 0) {
+            Toast.makeText(MainActivity.this, "打开视频失败", Toast.LENGTH_SHORT).show();
         }
-
 
 
     }
@@ -1600,6 +1595,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public Context getContext() {
         return this;
     }
+
     @Override
     public MainActivity getActivity() {
         return this;

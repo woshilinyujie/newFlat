@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.wl.wlflatproject.MUtils.LocationUtils;
 import com.wl.wlflatproject.R;
 
 import butterknife.BindView;
@@ -19,6 +20,8 @@ public class WeatherActivity1 extends AppCompatActivity {
     TextView locationTv;
     @BindView(R.id.today_temp_tv)
     TextView todayTempTv;
+    @BindView(R.id.today_weather_view)
+    View todayWeatherView;
     @BindView(R.id.today_weather_tv)
     TextView todayWeatherTv;
     @BindView(R.id.today_extent_tv)
@@ -27,10 +30,14 @@ public class WeatherActivity1 extends AppCompatActivity {
     LinearLayout todayTempLl;
     @BindView(R.id.second_weather_tv)
     TextView secondWeatherTv;
+    @BindView(R.id.second_day_view)
+    View secondDayView;
     @BindView(R.id.second_day_tv)
     TextView secondDayTv;
     @BindView(R.id.third_weather_tv)
     TextView thirdWeatherTv;
+    @BindView(R.id.third_day_view)
+    View thirdDayView;
     @BindView(R.id.third_day_tv)
     TextView thirdDayTv;
     @BindView(R.id.back)
@@ -54,14 +61,20 @@ public class WeatherActivity1 extends AppCompatActivity {
         String param5 = bundle.getString("param5");
         String param6 = bundle.getString("param6");
         String param7 = bundle.getString("param7");
-        locationTv.setText(param+"");
-        todayTempTv.setText(param1+"");
-        todayWeatherTv.setText(param2+"");
-        todayExtentTv.setText(param3+"");
+        String param8 = bundle.getString("param8");
+        String param9 = bundle.getString("param9");
+        String param10 = bundle.getString("param10");
+        locationTv.setText(param + "");
+        todayTempTv.setText(param1 + "");
+        todayWeatherTv.setText(param2 + "");
+        todayExtentTv.setText(param3 + "");
         secondWeatherTv.setText(param4);
         secondDayTv.setText(param5);
         thirdWeatherTv.setText(param6);
         thirdDayTv.setText(param7);
+        setWeatherIcon(todayWeatherView, param8);
+        setWeatherIcon(secondDayView, param9);
+        setWeatherIcon(thirdDayView, param10);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,4 +102,23 @@ public class WeatherActivity1 extends AppCompatActivity {
             decorView.setSystemUiVisibility(uiOptions);
         }
     }
+
+    private void setWeatherIcon(View view, String code) {
+        switch (code) {
+            case "1":
+                view.setBackgroundResource(R.drawable.sun_icon);
+                break;
+            case "2":
+                view.setBackgroundResource(R.drawable.cloud_icon);
+                break;
+            case "3":
+                view.setBackgroundResource(R.drawable.rain_icon);
+                break;
+            case "4":
+                view.setBackgroundResource(R.drawable.snow_icon);
+                break;
+            default:
+        }
+    }
+
 }
