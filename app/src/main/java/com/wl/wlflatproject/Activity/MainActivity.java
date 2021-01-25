@@ -264,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     if(!QtimesServiceManager.instance().isServerActive()){
                         QtimesServiceManager.instance().connect(MainActivity.this);
                     }
-                    handler.sendEmptyMessageDelayed(10,10000);
+                    handler.sendEmptyMessageDelayed(10,30*60*1000);
                     break;
                 case 13:
                     hideBottomUIMenu();
@@ -681,7 +681,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         changKai.setText("取消常开");
                                         changKai.setBackgroundResource(R.drawable.lock);
                                         if (QtimesServiceManager.instance().isServerActive()) {
-                                            QtimesServiceManager.instance().setLongOpenState(false);
+                                            QtimesServiceManager.instance().setLongOpenState(true);
                                         }
                                     }
                                     break;
@@ -691,7 +691,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         changkaiFlag = 1;
                                         changKai.setBackgroundResource(R.drawable.video);
                                         if (QtimesServiceManager.instance().isServerActive()) {
-                                            QtimesServiceManager.instance().setLongOpenState(true);
+                                            QtimesServiceManager.instance().setLongOpenState(false);
                                         }
                                     }
                                     break;
@@ -747,12 +747,18 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             dialogTime.dismiss();
                             changKai.setText("取消常开");
                             changKai.setBackgroundResource(R.drawable.lock);
+                            if (QtimesServiceManager.instance().isServerActive()) {
+                                QtimesServiceManager.instance().setLongOpenState(true);
+                            }
                         } else if (data.contains("AT+CLOSEALWAYSOPEN=1")) {//取消常开
                             changkaiFlag = 1;
                             if (dialogTime != null & dialogTime.isShowing()) ;
                             dialogTime.dismiss();
                             changKai.setText("常开");
                             changKai.setBackgroundResource(R.drawable.video);
+                            if (QtimesServiceManager.instance().isServerActive()) {
+                                QtimesServiceManager.instance().setLongOpenState(false);
+                            }
                         } else if (data.contains("AT+CDWAKE=1")) {//有人   但是不打开视频
                             if (!isHIgh) {
                                 writeFile(file, 2 + "");//打开屏幕
