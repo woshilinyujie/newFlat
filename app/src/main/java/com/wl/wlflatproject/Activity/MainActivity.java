@@ -765,7 +765,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             if (QtimesServiceManager.instance().isServerActive()) {
                                 QtimesServiceManager.instance().setLongOpenState(false);
                             }
-                        } else if (data.contains("AT+CDWAKE=1")) {//有人   但是不打开视频
+                        } else if (data.contains("AT+CDWAKE=1")) {    //有人   但是不打开视频
                             if (!isHIgh) {
                                 writeFile(file, 2 + "");//打开屏幕
                                 handler.removeMessages(3);
@@ -786,7 +786,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                     devMonitorPresenter.startMonitor();
                                 }
                             }
-                        } else if (data.contains("AT+CLOSESTRENGTH=1")) {   //关门力度
+                        } else if (data.contains("AT+CLOSESTRENGTH=1")) {         //关门力度
                             if (setMsgBean == null)
                                 setMsgBean = new SetMsgBean();
                             if (!TextUtils.isEmpty(msg))

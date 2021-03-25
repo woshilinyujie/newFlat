@@ -51,6 +51,8 @@ public class SettingActivity1 extends AppCompatActivity {
     RelativeLayout antiPinch;
     @BindView(R.id.experience)
     RelativeLayout experience;
+    @BindView(R.id.entry_door)
+    RelativeLayout entryDoor;
     private String value;
     private SetDialog setDialog;
     private SetDialog.ResultListener listener;
@@ -75,6 +77,7 @@ public class SettingActivity1 extends AppCompatActivity {
             restart.setVisibility(View.VISIBLE);
             engineeringMode.setVisibility(View.VISIBLE);
             experience.setVisibility(View.VISIBLE);
+            entryDoor.setVisibility(View.VISIBLE);
             SPUtil instance = SPUtil.getInstance(this);
             if (instance.getSettingParam("open", false)) {
                 numTv.setText("开");
@@ -117,7 +120,7 @@ public class SettingActivity1 extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.experience,R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
+    @OnClick({R.id.entry_door,R.id.experience,R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
     public void onViewClicked(View view) {
         if (setDialog == null) {
             setDialog = new SetDialog(SettingActivity1.this, R.style.mDialog);
@@ -259,6 +262,28 @@ public class SettingActivity1 extends AppCompatActivity {
                             QtimesServiceManager.instance().connect(SettingActivity1.this);
                         }
                         boolean b = QtimesServiceManager.instance().resetAntiPinch();
+                    }
+                });
+                break;
+            case R.id.entry_door://入户即关
+                boolean status = QtimesServiceManager.instance().getWishesStatus();
+                if (normalDialog == null)
+                    normalDialog = new NormalDialog(this, R.style.mDialog);
+                normalDialog.show();
+                normalDialog.setTitleText("入户即关");
+                if(status){
+                    normalDialog.setContentText("点击关闭入户即关");
+                }else {
+                    normalDialog.setContentText("点击开启入户即关");
+                }
+                normalDialog.getConfirmTv().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        normalDialog.dismiss();
+                        if (!QtimesServiceManager.instance().isServerActive()) {
+                            QtimesServiceManager.instance().connect(SettingActivity1.this);
+                        }
+                        boolean b = QtimesServiceManager.instance().setWishesStatus(!status);
                     }
                 });
                 break;
