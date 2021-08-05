@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private CodeDialog codeDialog;
     private int changkaiFlag = 3;
     private String openDegree = "--";//开门角度
+    private String openDegreeRepair = "--";//开门角度修复值
     private String openDoorWaitTime = "--";//开门等待时间
     private String openDoorSpeed = "--";//开门速度
     private String closeDoorSpeed = "--";//关门速度
@@ -436,6 +437,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 intent.putExtra("leftDegreeRepair", leftDegreeRepair);
                 intent.putExtra("rightDegreeRepair", rightDegreeRepair);
                 intent.putExtra("closePower", closePower);
+                intent.putExtra("openDegreeRepair", openDegreeRepair);
                 startActivity(intent);
                 break;
             case R.id.swtich:
@@ -704,6 +706,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 case 9://关门力度
                                     closePower = split[1];
                                     break;
+                                case 10://开门角度修复值
+                                    openDegreeRepair = split[1];
+                                    break;
                             }
                         } else if (data.contains("AT+LEFTANGLEREPAIR=1")) { //左角度修复值
                             if (setMsgBean == null)
@@ -719,7 +724,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 rightDegreeRepair = msg;
                             setMsgBean.setFlag(2);
                             EventBus.getDefault().post(setMsgBean);
-                        } else if (data.contains("AT+OPENANGLE=1")) {//开门角度
+                        }  else if (data.contains("AT+ANGLEREPAIR=1")) {//开门角度修复值
+                            if (setMsgBean == null)
+                                setMsgBean = new SetMsgBean();
+                            if (!TextUtils.isEmpty(msg))
+                                openDegreeRepair = msg;
+                            setMsgBean.setFlag(12);
+                            EventBus.getDefault().post(setMsgBean);
+                        }else if (data.contains("AT+OPENANGLE=1")) {//开门角度
                             if (setMsgBean == null)
                                 setMsgBean = new SetMsgBean();
                             if (!TextUtils.isEmpty(msg))
@@ -947,6 +959,9 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 break;
             case 11://关闭人流检测
                 open.setVisibility(View.GONE);
+                break;
+            case 12://关闭人流检测
+                serialPort.sendDate(("+ANGLEREPAIR:" + msg + "\r\n").getBytes());
                 break;
         }
     }

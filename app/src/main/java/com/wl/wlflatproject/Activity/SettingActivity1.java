@@ -59,6 +59,7 @@ public class SettingActivity1 extends AppCompatActivity {
     private MainMsgBean mainMsgBean;
     private WaitDialogTime waitDialogTime;
     private NormalDialog normalDialog;
+    private Intent setIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class SettingActivity1 extends AppCompatActivity {
     }
 
     private void initData() {
+        setIntent = getIntent();
         if (MainActivity.isHIgh) {
             numRl.setVisibility(View.VISIBLE);
             system.setVisibility(View.VISIBLE);
@@ -132,8 +134,8 @@ public class SettingActivity1 extends AppCompatActivity {
                 break;
             case R.id.setting:
                 Intent intent = new Intent(SettingActivity1.this, SettingActivity.class);
-                intent.putExtras(getIntent());
-                startActivity(intent);
+                intent.putExtras(setIntent);
+                startActivityForResult(intent,500);
                 break;
             case R.id.num_rl:
                 Intent intent1 = new Intent(SettingActivity1.this, RoomCheckActivity.class);
@@ -298,6 +300,7 @@ public class SettingActivity1 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 200) {
             if (MainActivity.isHIgh) {
                 SPUtil instance = SPUtil.getInstance(this);
@@ -307,6 +310,8 @@ public class SettingActivity1 extends AppCompatActivity {
                     numTv.setText("关");
                 }
             }
+        }else if(resultCode==300){
+            setIntent=data;
         }
     }
 

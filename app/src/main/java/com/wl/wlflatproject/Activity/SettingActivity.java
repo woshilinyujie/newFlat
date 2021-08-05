@@ -53,6 +53,8 @@ public class SettingActivity extends AppCompatActivity {
     TextView closeSpeedTv;
     @BindView(R.id.close_power_tv)
     TextView closePowerTv;
+    @BindView(R.id.open_degree_repair_tv)
+    TextView openDegreeRepairTv;
     private String value;
     private SetDialog setDialog;
     private SetDialog.ResultListener listener;
@@ -76,6 +78,7 @@ public class SettingActivity extends AppCompatActivity {
         openSpeedTv.setText(intent.getStringExtra("openDoorSpeed"));
         closeSpeedTv.setText(intent.getStringExtra("closeDoorSpeed"));
         closePowerTv.setText(intent.getStringExtra("closePower"));
+        openDegreeRepairTv.setText(intent.getStringExtra("openDegreeRepair"));
         listener = new SetDialog.ResultListener() {
             @Override
             public void onResult(String value,int flag) {
@@ -101,26 +104,31 @@ public class SettingActivity extends AppCompatActivity {
                 Toast.makeText(SettingActivity.this,"设置左角度修复值成功",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(value))
                 leftRepairDegreeTv.setText(value);
+                getIntent().putExtra("leftDegreeRepair",value);
                 break;
             case 2:
                 Toast.makeText(SettingActivity.this,"设置右角度修复值成功",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(value))
                 rightRepairDegreeTv.setText(value);
+                getIntent().putExtra("rightDegreeRepair", value);
                 break;
             case 3:
                 Toast.makeText(SettingActivity.this,"设置开门角度成功",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(value))
                 openDegreeTv.setText(value);
+                getIntent().putExtra("openDegree",value);
                 break;
             case 5:
                 Toast.makeText(SettingActivity.this,"设置开门速度成功",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(value))
                 openSpeedTv.setText(value);
+                getIntent().putExtra("openDoorSpeed",value);
                 break;
             case 6:
                 Toast.makeText(SettingActivity.this,"设置关门速度成功",Toast.LENGTH_SHORT).show();
                 if(!TextUtils.isEmpty(value))
                 closeSpeedTv.setText(value);
+                getIntent().putExtra("closeDoorSpeed",value);
                 break;
             case 7:
                 Toast.makeText(SettingActivity.this,"开门成功",Toast.LENGTH_SHORT).show();
@@ -128,7 +136,16 @@ public class SettingActivity extends AppCompatActivity {
                     waitDialogTime.dismiss();
                 break;
             case 8:
-                Toast.makeText(SettingActivity.this,"设置成功",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingActivity.this,"关门力度设置成功",Toast.LENGTH_SHORT).show();
+                if(!TextUtils.isEmpty(value))
+                closePowerTv.setText(value);
+                getIntent().putExtra("closePower",value);
+                break;
+            case 12:
+                Toast.makeText(SettingActivity.this,"设置开门角度修复值成功",Toast.LENGTH_SHORT).show();
+                if(!TextUtils.isEmpty(value))
+                    openDegreeRepairTv.setText(value);
+                getIntent().putExtra("openDegreeRepair",value);
                 break;
 
         }
@@ -140,7 +157,7 @@ public class SettingActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    @OnClick({R.id.back, R.id.left_repair_degree, R.id.right_repair_degree, R.id.open_degree, R.id.open_speed,R.id.close_power, R.id.close_speed})
+    @OnClick({R.id.open_degree_repair,R.id.back, R.id.left_repair_degree, R.id.right_repair_degree, R.id.open_degree, R.id.open_speed,R.id.close_power, R.id.close_speed})
     public void onViewClicked(View view) {
         if (setDialog == null) {
             setDialog = new SetDialog(SettingActivity.this, R.style.mDialog);
@@ -148,10 +165,14 @@ public class SettingActivity extends AppCompatActivity {
         }
         switch (view.getId()) {
             case R.id.back:
+                setResult(300,getIntent());
                 finish();
                 break;
             case R.id.close_power:
                 setDialog.show(8);
+                break;
+            case R.id.open_degree_repair:
+                setDialog.show(12);
                 break;
             case R.id.left_repair_degree:
                 setDialog.show(1);

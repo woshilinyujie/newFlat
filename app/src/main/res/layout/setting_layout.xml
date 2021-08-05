@@ -5,11 +5,14 @@
     android:background="#000000"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_margin="@dimen/dp_7"
+        android:background="#253443"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/dp_7"
-        android:background="#253443"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -278,8 +281,48 @@
                 android:layout_height="@dimen/dp_1"/>
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/open_degree_repair"
+            android:paddingRight="@dimen/dp_11"
+            android:paddingLeft="@dimen/dp_11"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_60"
+            android:layout_marginTop="@dimen/dp_10">
+
+            <TextView
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_centerVertical="true"
+                android:text="开门角度修复值"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/open_degree_repair_tv"
+                android:text="--°"
+                android:layout_marginRight="@dimen/dp_25"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:background="@drawable/gray_arrow_icon"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="@dimen/dp_9"
+                android:layout_height="@dimen/dp_18" />
+            <View
+                android:layout_alignParentBottom="true"
+                android:background="#56616c"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"/>
+        </RelativeLayout>
+
 
 
     </LinearLayout>
-
+    </ScrollView>
 </LinearLayout>

@@ -88,6 +88,10 @@ public class SetDialog extends Dialog {
                 start.refreshByNewDisplayedValues(s4);
                 name.setText("关门力度");
                 break;
+            case 12://开门角度修复值
+                start.refreshByNewDisplayedValues(s);
+                name.setText("开门角度修复值");
+                break;
         }
         show();
     }
