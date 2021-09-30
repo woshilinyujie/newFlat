@@ -652,6 +652,15 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                         setMsgBean.setFlag(7);
                                         EventBus.getDefault().post(bean);
                                     }
+                                    //mq  通知小管家开门成功  并且关闭视频
+                                    OpenTvBean bean = new OpenTvBean();
+                                    bean.setCmd(0x1009);
+                                    bean.setAck(0);
+                                    bean.setDevType("WL025S1");
+                                    bean.setDevid(id);
+                                    bean.setVendor("general");
+                                    bean.setSeqid(1);
+                                    rbmq.pushMsg(id + "#" + GsonUtils.GsonString(bean));
 //                                    Toast.makeText(MainActivity.this, "开门成功", Toast.LENGTH_SHORT).show();
                                     if (dialogTime != null & dialogTime.isShowing())
                                         dialogTime.dismiss();
