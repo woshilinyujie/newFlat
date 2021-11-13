@@ -9,8 +9,8 @@ android {
 //        versionCode 21
 //        versionName "21"
 //
-        versionCode 36  //高
-        versionName "36.0"
+        versionCode 39  //高
+        versionName "39.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
@@ -106,7 +106,7 @@ dependencies {
     annotationProcessor "org.permissionsdispatcher:permissionsdispatcher-processor:4.3.1"//权限
     implementation 'com.yanzhenjie.permission:support:2.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    compile(name: 'service_wonly', ext: 'aar')
+    implementation(name: 'service_wonly', ext: 'aar')
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
     compileOnly 'com.google.zxing:core:3.3.3'
     implementation 'com.xiongmai:libxmfunsdk:1.0.5'

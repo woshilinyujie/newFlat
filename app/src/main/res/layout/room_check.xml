@@ -111,6 +111,7 @@
 
         <Button
             android:visibility="gone"
+            android:gravity="center"
             android:id="@+id/reset"
             android:text="重置屋内人数"
             android:textSize="@dimen/sp_16"

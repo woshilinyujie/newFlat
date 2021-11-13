@@ -105,6 +105,7 @@
 
         <activity android:name=".Activity.CalendarActivity"></activity>
         <activity android:name=".Activity.WeatherActivity" />
+        <activity android:name=".Activity.DoorSelectActivity" />
         <activity android:name=".Activity.WeatherActivity1" />
         <activity android:name=".Activity.SettingActivity" />
         <activity android:name=".Activity.SettingActivity1" />

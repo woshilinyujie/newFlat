@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#253443"
+    android:layout_margin="@dimen/dp_7"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_45"
+        android:layout_marginTop="@dimen/dp_20"
+        android:paddingLeft="@dimen/dp_10">
+
+        <ImageView
+            android:layout_width="@dimen/dp_9"
+            android:layout_height="@dimen/dp_18"
+            android:layout_centerVertical="true"
+            android:background="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:text="返回"
+            android:textColor="#26b275"
+            android:textSize="@dimen/sp_20" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:paddingLeft="@dimen/dp_11"
+        android:paddingRight="@dimen/dp_11">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="随心门"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sp_16" />
+
+        <ImageView
+            android:id="@+id/one_check"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/device_unselect_icon"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:background="#56616c" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:paddingLeft="@dimen/dp_11"
+        android:paddingRight="@dimen/dp_11">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="双开母门"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sp_16" />
+
+        <ImageView
+            android:id="@+id/two_check"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/device_unselect_icon"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:background="#56616c" />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:paddingLeft="@dimen/dp_11"
+        android:paddingRight="@dimen/dp_11">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="双开子门"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/sp_16" />
+
+        <ImageView
+            android:id="@+id/three_check"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/device_unselect_icon"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"/>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_1"
+            android:layout_alignParentBottom="true"
+            android:background="#56616c" />
+    </RelativeLayout>
+
+
+
+    <Button
+        android:id="@+id/save"
+        android:text="确定"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/white"
+        android:background="@drawable/shape_radius_4_26b275"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_80"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50" />
+
+
+
+</LinearLayout>

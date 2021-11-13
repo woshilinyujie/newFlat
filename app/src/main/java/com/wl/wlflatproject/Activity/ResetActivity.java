@@ -65,26 +65,30 @@ public class ResetActivity extends AppCompatActivity {
             case R.id.save:
                 if (!TextUtils.isEmpty(edit.getText().toString())) {
                     int i = Integer.parseInt(edit.getText().toString());
-                    if(connectBean==null){
-                        connectBean=new ConnectBean();
-                        connectBean.setCmd(0x1101);
-                        connectBean.setAck(0);
-                        connectBean.setDevType("WL025S1");
-                        connectBean.setDevid(DeviceUtils.getSerialNumber(this));
-                        connectBean.setVendor("general");
-                        connectBean.setSeqid(1);
-                    }
-                    connectBean.setResetNum(i);
-                    long time = System.currentTimeMillis() / 1000;
-                    connectBean.setTime(time);
-                    String json = GsonUtils.GsonString(connectBean);
+//                    if(connectBean==null){
+//                        connectBean=new ConnectBean();
+//                        connectBean.setCmd(0x1101);
+//                        connectBean.setAck(0);
+//                        connectBean.setDevType("WL025S1");
+//                        connectBean.setDevid(DeviceUtils.getSerialNumber(this));
+//                        connectBean.setVendor("general");
+//                        connectBean.setSeqid(1);
+//                    }
+//                    connectBean.setResetNum(i);
+//                    long time = System.currentTimeMillis() / 1000;
+//                    connectBean.setTime(time);
+//                    String json = GsonUtils.GsonString(connectBean);
                     MainMsgBean msgBean =new MainMsgBean();
                     msgBean.setFlag(10);
-                    msgBean.setMsg(json);
+//                    msgBean.setMsg("json");
+                    msgBean.setNum(i);
                     EventBus.getDefault().post(msgBean);
-                    if (dialogTime == null)
-                        dialogTime = new WaitDialogTime(this, android.R.style.Theme_Translucent_NoTitleBar);
-                    dialogTime.show();
+//                    if (dialogTime == null)
+//                        dialogTime = new WaitDialogTime(this, android.R.style.Theme_Translucent_NoTitleBar);
+//                    dialogTime.show();
+                    Toast.makeText(ResetActivity.this,"设置成功",Toast.LENGTH_SHORT).show();
+                    setResult(100);
+                    finish();
                 } else {
                     Toast.makeText(ResetActivity.this, "请输入人数", Toast.LENGTH_SHORT).show();
                 }

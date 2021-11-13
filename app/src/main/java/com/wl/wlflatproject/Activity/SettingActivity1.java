@@ -53,6 +53,8 @@ public class SettingActivity1 extends AppCompatActivity {
     RelativeLayout experience;
     @BindView(R.id.entry_door)
     RelativeLayout entryDoor;
+    @BindView(R.id.door_select)
+    RelativeLayout doorSelect;
     private String value;
     private SetDialog setDialog;
     private SetDialog.ResultListener listener;
@@ -122,7 +124,7 @@ public class SettingActivity1 extends AppCompatActivity {
     }
 
 
-    @OnClick({R.id.entry_door,R.id.experience,R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
+    @OnClick({R.id.door_select,R.id.entry_door,R.id.experience,R.id.back, R.id.wait_time, R.id.setting, R.id.num_rl, R.id.activation, R.id.system, R.id.engineering_mode, R.id.restart, R.id.anti_pinch})
     public void onViewClicked(View view) {
         if (setDialog == null) {
             setDialog = new SetDialog(SettingActivity1.this, R.style.mDialog);
@@ -136,6 +138,11 @@ public class SettingActivity1 extends AppCompatActivity {
                 Intent intent = new Intent(SettingActivity1.this, SettingActivity.class);
                 intent.putExtras(setIntent);
                 startActivityForResult(intent,500);
+                break;
+            case R.id.door_select:
+                Intent intent2 = new Intent(SettingActivity1.this, DoorSelectActivity.class);
+                intent2.putExtras(intent2);
+                startActivity(intent2);
                 break;
             case R.id.num_rl:
                 Intent intent1 = new Intent(SettingActivity1.this, RoomCheckActivity.class);

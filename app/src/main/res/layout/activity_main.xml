@@ -11,6 +11,7 @@
 
 
     <RelativeLayout
+        android:layout_marginBottom="@dimen/dp_8"
         android:id="@+id/rl"
         android:layout_width="match_parent"
         android:layout_height="500dp">
@@ -113,11 +114,10 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/door_select_ll"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -141,6 +141,56 @@
                 android:textColor="#ffffff"
                 android:textSize="@dimen/sp_17"
                 android:text="开锁"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/lock"
+            android:id="@+id/lock_single"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_weight="2">
+
+
+            <ImageView
+                android:background="@drawable/lock_icon"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_21" />
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_17"
+                android:text="单开"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:background="@drawable/lock"
+            android:id="@+id/lock_double"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/dp_20"
+            android:layout_weight="2">
+
+
+            <ImageView
+                android:background="@drawable/lock_icon"
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_21" />
+            <TextView
+                android:layout_marginLeft="@dimen/dp_10"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/sp_17"
+                android:text="双开"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -182,7 +232,6 @@
             android:id="@+id/changkai"
             android:layout_width="@dimen/dp_95"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/dp_14"
             android:background="@drawable/video" />
 
         <ImageView
@@ -209,6 +258,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_marginTop="@dimen/dp_8"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

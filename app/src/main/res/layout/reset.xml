@@ -131,6 +131,7 @@
             android:background="#56616c" />
 
         <Button
+            android:gravity="center"
             android:id="@+id/save"
             android:text="保存"
             android:textSize="@dimen/sp_16"

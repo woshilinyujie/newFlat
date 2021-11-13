@@ -12,6 +12,9 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Hashtable;
 
 /**
@@ -102,5 +105,26 @@ public class CodeUtils {
     }
 
 
-
+    public static String getMacAddr() {
+        try {
+            return loadFileAsString("/sys/class/net/wlan0/address")
+                    .toUpperCase().substring(0, 17);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+    private static String loadFileAsString(String filePath)
+            throws java.io.IOException {
+        StringBuffer fileData = new StringBuffer(1000);
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        char[] buf = new char[1024];
+        int numRead = 0;
+        while ((numRead = reader.read(buf)) != -1) {
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+        }
+        reader.close();
+        return fileData.toString();
+    }
 }

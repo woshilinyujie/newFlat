@@ -59,6 +59,7 @@ import com.wl.wlflatproject.Bean.StateBean;
 import com.wl.wlflatproject.Bean.UpdataJsonBean;
 import com.wl.wlflatproject.Bean.UpdateAppBean;
 import com.wl.wlflatproject.Bean.WeatherBean;
+import com.wl.wlflatproject.MUtils.CodeUtils;
 import com.wl.wlflatproject.MUtils.DateUtils;
 import com.wl.wlflatproject.MUtils.DeviceUtils;
 import com.wl.wlflatproject.MUtils.DpUtils;
@@ -173,6 +174,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     TextView thirdWeatherTv;
     @BindView(R.id.today_temp_ll)
     LinearLayout todayTempLl;
+    @BindView(R.id.door_select_ll)
+    LinearLayout doorSelectLl;
+    @BindView(R.id.lock_single)
+    LinearLayout lockSingle;
+    @BindView(R.id.lock_double)
+    LinearLayout lockDouble;
     private int version;
     private NormalDialog normalDialog;
     /* 更新进度条 */
@@ -268,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     if (!QtimesServiceManager.instance().isServerActive()) {
                         QtimesServiceManager.instance().connect(MainActivity.this);
                     }
-                    handler.sendEmptyMessageDelayed(10,30*60*1000);
+                    handler.sendEmptyMessageDelayed(10, 30 * 60 * 1000);
                     break;
                 case 13:
                     hideBottomUIMenu();
@@ -324,40 +331,62 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         devMonitorPresenter = new DevMonitorPresenter(this, bg, funView, time);
         devMonitorPresenter.setChannelId(0);
         normalDialog = new NormalDialog(this, R.style.mDialog);
+        int select = SPUtil.getInstance(this).getSettingParam("doorSelect", 0);
+        if (select == 1) {//母门
+            doorSelectLl.setVisibility(View.VISIBLE);
+            videoIv.setVisibility(View.GONE);
+            lockBt.setVisibility(View.GONE);
+            lockSingle.setVisibility(View.VISIBLE);
+            lockDouble.setVisibility(View.VISIBLE);
+            SPUtil.getInstance(this).setSettingParam("doorSelect", 1);
+        } else if (select == 2) {//子门
+            doorSelectLl.setVisibility(View.GONE);
+            SPUtil.getInstance(this).setSettingParam("doorSelect", 2);
+        } else if (select == 0) {//随心门
+            doorSelectLl.setVisibility(View.VISIBLE);
+            videoIv.setVisibility(View.VISIBLE);
+            lockBt.setVisibility(View.VISIBLE);
+            lockSingle.setVisibility(View.GONE);
+            lockDouble.setVisibility(View.GONE);
+
+            SPUtil.getInstance(this).setSettingParam("doorSelect", 0);
+        }
+
+
         if (isHIgh) {
             fHeight = DpUtils.dip2px(this, 300);
             setScreen();
             checkNum = SPUtil.getInstance(this).getSettingParam("checkNum", 0);
-            checkNumRect = SPUtil.getInstance(this).getSettingParam("checkNumRect", 0);
-            QtimesServiceManager.instance().connect(this);
+//            checkNumRect = SPUtil.getInstance(this).getSettingParam("checkNumRect", 0);
+//            QtimesServiceManager.instance().connect(this);
             SPUtil instance = SPUtil.getInstance(this);
-            checkListener = new QtimesServiceManager.QtimesDoorServiceListener() {
-                @Override
-                public void onPersonInOutEvent(int i) {
-                    sendCheckNum(i);
-                }
-
-                @Override
-                public void onPersonExistEvent(boolean b) {
-
-                }
-
-                @Override
-                public void onServiceConnect() {
-
-                }
-
-                @Override
-                public void onServiceDisconnect() {
-
-                }
-            };
+//            checkListener = new QtimesServiceManager.QtimesDoorServiceListener() {
+//                @Override
+//                public void onPersonInOutEvent(int i) {
+//                    sendCheckNum(i);
+//                }
+//
+//                @Override
+//                public void onPersonExistEvent(boolean b) {
+//
+//                }
+//
+//                @Override
+//                public void onServiceConnect() {
+//
+//                }
+//
+//                @Override
+//                public void onServiceDisconnect() {
+//
+//                }
+//            };
             if (instance.getSettingParam("open", false)) {
                 open.setVisibility(View.VISIBLE);
-                if (!QtimesServiceManager.instance().isServerActive()) {
-                    QtimesServiceManager.instance().connect(this);
-                }
-                QtimesServiceManager.instance().setListener(checkListener);
+//                if (!QtimesServiceManager.instance().isServerActive()) {
+//                    QtimesServiceManager.instance().connect(this);
+//                }
+//                QtimesServiceManager.instance().setListener(checkListener);
                 handler.sendEmptyMessageAtTime(8, 1000);
             }
         } else {
@@ -375,7 +404,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         if (dialogTime == null)
             dialogTime = new WaitDialogTime(this, android.R.style.Theme_Translucent_NoTitleBar);
         requestPermission();
-        id = DeviceUtils.getSerialNumber(MainActivity.this);
+        String id = CodeUtils.getMacAddr();
+        Log.e("获得Mac地址",id+"");
         rbmq = new RbMqUtils();
         bean.setAck(0);
         bean.setCmd(0x46);
@@ -421,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
 
-    @OnClick({R.id.swtich, R.id.changkai, R.id.setting, R.id.lock_bt, R.id.onoff_bt,
+    @OnClick({R.id.lock_single, R.id.lock_double, R.id.swtich, R.id.changkai, R.id.setting, R.id.lock_bt, R.id.onoff_bt,
             R.id.bufang_bt, R.id.fun_view,
             R.id.weather_ll, R.id.calendar_ll, R.id.video_iv})
     public void onViewClicked(View view) {
@@ -463,6 +493,16 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             case R.id.lock_bt://开门
                 dialogTime.show();
                 serialPort.sendDate("+COPEN:1\r\n".getBytes());
+                handler.sendEmptyMessageDelayed(13, 500);
+                break;
+            case R.id.lock_single://单开
+                dialogTime.show();
+                serialPort.sendDate("+CINOPEN:1\r\n".getBytes());
+                handler.sendEmptyMessageDelayed(13, 500);
+                break;
+            case R.id.lock_double://双开
+                dialogTime.show();
+                serialPort.sendDate("+CINOPEN:2\r\n".getBytes());
                 handler.sendEmptyMessageDelayed(13, 500);
                 break;
             case R.id.video_iv:
@@ -533,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         //发送端
         rbmq.publishToAMPQ("");
         //接收端
-        String s = DeviceUtils.getSerialNumber(this) + "_robot";
+        String s = id + "_robot";
         rbmq.subscribe(s);
         rbmq.setUpConnectionFactory();
         rbmq.setRbMsgListener(new RbMqUtils.OnRbMsgListener() {
@@ -567,31 +607,31 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 }
                             }
                             break;
-                        case 0x1101://重置人流检测
-                            ConnectBean connectBean = GsonUtils.GsonToBean(msg, ConnectBean.class);
-                            if (connectBean.getAck() == 1) {
-                                checkNumRect = 0;
-                                checkNum = connectBean.getResetNum();
-
-                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNumRect", checkNumRect);
-                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
-
-                                num.setText("当前室内人数：" + connectBean.getResetNum() + "人");
-                                open.setVisibility(View.VISIBLE);
-                                Toast.makeText(MainActivity.this, "重置成功", Toast.LENGTH_LONG);
-                                EventBus.getDefault().post(new ConnectBean());
-                            } else {
-                                Toast.makeText(MainActivity.this, "重置失败", Toast.LENGTH_LONG);
-                            }
-                            break;
-                        case 0x1100://人数变动通知
-                            CheckNumBean checkNumBean = GsonUtils.GsonToBean(msg, CheckNumBean.class);
-                            if (checkNumBean.getAck() == 1) {
-                                num.setText("当前室内人数：" + checkNumBean.getTotalNum() + "人");
-                                checkNum = +checkNumBean.getTotalNum();
-                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
-                            }
-                            break;
+//                        case 0x1101://重置人流检测
+//                            ConnectBean connectBean = GsonUtils.GsonToBean(msg, ConnectBean.class);
+//                            if (connectBean.getAck() == 1) {
+//                                checkNumRect = 0;
+//                                checkNum = connectBean.getResetNum();
+//
+//                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNumRect", checkNumRect);
+//                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
+//
+//                                num.setText("当前室内人数：" + connectBean.getResetNum() + "人");
+//                                open.setVisibility(View.VISIBLE);
+//                                Toast.makeText(MainActivity.this, "重置成功", Toast.LENGTH_LONG);
+//                                EventBus.getDefault().post(new ConnectBean());
+//                            } else {
+//                                Toast.makeText(MainActivity.this, "重置失败", Toast.LENGTH_LONG);
+//                            }
+//                            break;
+//                        case 0x1100://人数变动通知
+//                            CheckNumBean checkNumBean = GsonUtils.GsonToBean(msg, CheckNumBean.class);
+//                            if (checkNumBean.getAck() == 1) {
+//                                num.setText("当前室内人数：" + checkNumBean.getTotalNum() + "人");
+//                                checkNum = +checkNumBean.getTotalNum();
+//                                SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
+//                            }
+//                            break;
                     }
                 } else {
                     String s = "+MIPLWRITE:" + msg.length() + "," + msg + "\r\n";
@@ -733,14 +773,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 rightDegreeRepair = msg;
                             setMsgBean.setFlag(2);
                             EventBus.getDefault().post(setMsgBean);
-                        }  else if (data.contains("AT+ANGLEREPAIR=1")) {//开门角度修复值
+                        } else if (data.contains("AT+ANGLEREPAIR=1")) {//开门角度修复值
                             if (setMsgBean == null)
                                 setMsgBean = new SetMsgBean();
                             if (!TextUtils.isEmpty(msg))
                                 openDegreeRepair = msg;
                             setMsgBean.setFlag(12);
                             EventBus.getDefault().post(setMsgBean);
-                        }else if (data.contains("AT+OPENANGLE=1")) {//开门角度
+                        } else if (data.contains("AT+OPENANGLE=1")) {//开门角度
                             if (setMsgBean == null)
                                 setMsgBean = new SetMsgBean();
                             if (!TextUtils.isEmpty(msg))
@@ -879,6 +919,25 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             } catch (Exception e) {
 
                             }
+                        } else if (data.contains("AT+PEOPLECHECK=")) {
+                            String[] split = data.split("=");
+                            switch (split[1]) {
+                                case "1"://毫米波雷达  进去一个人
+//                                    checkNum = +checkNumBean.getTotalNum();
+//                                    num.setText("当前室内人数：" + checkNumBean.getTotalNum() + "人");
+                                    checkNum = checkNum+1;
+                                    num.setText("当前室内人数：" + checkNum + "人");
+                                    SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
+                                    break;
+                                case "2"://毫米波雷达  出去一个人
+                                    checkNum = checkNum-1;
+                                    if(checkNum<0){
+                                        checkNum=0;
+                                    }
+                                    num.setText("当前室内人数：" + checkNum + "人");
+                                    SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
+                                    break;
+                            }
                         }
                     }
                 });
@@ -887,28 +946,28 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
 
-    public void sendCheckNum(int i) {
-        if (i == 0) {
-            checkNumRect = checkNumRect - 1;
-        } else {
-            checkNumRect = checkNumRect + 1;
-        }
-        SPUtil.getInstance(MainActivity.this).setSettingParam("checkNumRect", checkNumRect);
-        if (checkNumBean == null) {
-            checkNumBean = new CheckNumBean();
-            checkNumBean.setCmd(0x1100);
-            checkNumBean.setAck(0);
-            checkNumBean.setDevType("WL025S1");
-            checkNumBean.setDevid(DeviceUtils.getSerialNumber(MainActivity.this));
-            checkNumBean.setVendor("general");
-            checkNumBean.setSeqid(1);
-        }
-        checkNumBean.setLockNum(checkNumRect);
-        checkNumBean.setTotalNum(0);
-        long l = System.currentTimeMillis() / 1000;
-        checkNumBean.setTime(l);
-        rbmq.pushMsg(DeviceUtils.getSerialNumber(MainActivity.this) + "#" + GsonUtils.GsonString(checkNumBean));
-    }
+//    public void sendCheckNum(int i) {
+//        if (i == 0) {
+//            checkNumRect = checkNumRect - 1;
+//        } else {
+//            checkNumRect = checkNumRect + 1;
+//        }
+//        SPUtil.getInstance(MainActivity.this).setSettingParam("checkNumRect", checkNumRect);
+//        if (checkNumBean == null) {
+//            checkNumBean = new CheckNumBean();
+//            checkNumBean.setCmd(0x1100);
+//            checkNumBean.setAck(0);
+//            checkNumBean.setDevType("WL025S1");
+//            checkNumBean.setDevid(DeviceUtils.getSerialNumber(MainActivity.this));
+//            checkNumBean.setVendor("general");
+//            checkNumBean.setSeqid(1);
+//        }
+//        checkNumBean.setLockNum(checkNumRect);
+//        checkNumBean.setTotalNum(0);
+//        long l = System.currentTimeMillis() / 1000;
+//        checkNumBean.setTime(l);
+//        rbmq.pushMsg(DeviceUtils.getSerialNumber(MainActivity.this) + "#" + GsonUtils.GsonString(checkNumBean));
+//    }
 
 
     //---------------------eventBus----------------
@@ -956,21 +1015,46 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 }
                 break;
             case 9://开启人流检测
-                if (!QtimesServiceManager.instance().isServerActive()) {
-                    QtimesServiceManager.instance().connect(this);
-                }
-                QtimesServiceManager.instance().setListener(checkListener);
+//                if (!QtimesServiceManager.instance().isServerActive()) {
+//                    QtimesServiceManager.instance().connect(this);
+//                }
+//                QtimesServiceManager.instance().setListener(checkListener);
                 open.setVisibility(View.VISIBLE);
                 num.setText("当前室内人数：" + checkNum + "人");
                 break;
             case 10://设置人数
-                rbmq.pushMsg(DeviceUtils.getSerialNumber(this) + "#" + msgBean.getMsg());
+//                rbmq.pushMsg(DeviceUtils.getSerialNumber(this) + "#" + msgBean.getMsg());
+                checkNum=msgBean.getNum();
+                handler.sendEmptyMessage(8);
+                SPUtil.getInstance(this).setSettingParam("checkNum", checkNum);
                 break;
             case 11://关闭人流检测
                 open.setVisibility(View.GONE);
                 break;
             case 12://关闭人流检测
                 serialPort.sendDate(("+ANGLEREPAIR:" + msg + "\r\n").getBytes());
+                break;
+            case 21://设置门类型
+                if (msg.equals("1")) {//母门
+                    doorSelectLl.setVisibility(View.VISIBLE);
+                    videoIv.setVisibility(View.GONE);
+                    lockBt.setVisibility(View.GONE);
+                    lockSingle.setVisibility(View.VISIBLE);
+                    lockDouble.setVisibility(View.VISIBLE);
+                    SPUtil.getInstance(this).setSettingParam("doorSelect", 1);
+                } else if (msg.equals("2")) {//子门
+                    doorSelectLl.setVisibility(View.GONE);
+                    SPUtil.getInstance(this).setSettingParam("doorSelect", 2);
+                } else if (msg.equals("0")) {//随心门
+                    doorSelectLl.setVisibility(View.VISIBLE);
+                    videoIv.setVisibility(View.VISIBLE);
+                    lockBt.setVisibility(View.VISIBLE);
+                    lockSingle.setVisibility(View.GONE);
+                    lockDouble.setVisibility(View.GONE);
+
+                    SPUtil.getInstance(this).setSettingParam("doorSelect", 0);
+                }
+                Toast.makeText(this, "设置成功", Toast.LENGTH_SHORT);
                 break;
         }
     }
