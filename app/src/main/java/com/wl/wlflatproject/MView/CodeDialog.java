@@ -27,6 +27,7 @@ public class CodeDialog extends Dialog {
         ImageView iv=mView.findViewById(R.id.dialog_code_iv);
         if(towCode==null){
             towCode = DpUtils.getTowCode(context, "WL025S1-"+ CodeUtils.getMacAddr());
+//            towCode = DpUtils.getTowCode(context, "WL025S1-"+ DeviceUtils.getSerialNumber(context));
             iv.setImageBitmap(towCode);
             setContentView(mView);
         }
