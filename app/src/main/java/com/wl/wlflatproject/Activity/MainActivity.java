@@ -30,7 +30,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -60,6 +59,7 @@ import com.wl.wlflatproject.Bean.UpdataJsonBean;
 import com.wl.wlflatproject.Bean.UpdateAppBean;
 import com.wl.wlflatproject.Bean.WeatherBean;
 import com.wl.wlflatproject.MUtils.CodeUtils;
+import com.wl.wlflatproject.MUtils.Constants;
 import com.wl.wlflatproject.MUtils.DateUtils;
 import com.wl.wlflatproject.MUtils.DeviceUtils;
 import com.wl.wlflatproject.MUtils.DpUtils;
@@ -71,6 +71,7 @@ import com.wl.wlflatproject.MUtils.RbMqUtils;
 import com.wl.wlflatproject.MUtils.SPUtil;
 import com.wl.wlflatproject.MUtils.SerialPortUtil;
 import com.wl.wlflatproject.MUtils.VersionUtils;
+import com.wl.wlflatproject.MUtils.YmodleUtils;
 import com.wl.wlflatproject.MView.CodeDialog;
 import com.wl.wlflatproject.MView.NormalDialog;
 import com.wl.wlflatproject.MView.WaitDialogTime;
@@ -94,10 +95,13 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import ru.sir.ymodem.YModem;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, DevMonitorContract.IDevMonitorView {
     public static boolean isHIgh = true;   //是否是高配
@@ -217,6 +221,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                         String ssid = wifiInfo.getSSID();
                         if (!TextUtils.isEmpty(ssid) && !ssid.equals("<unknown ssid>")) {
+                            bean.setTime(System.currentTimeMillis() / 1000);
+                            stateJson = GsonUtils.GsonString(bean);
                             rbmq.pushMsg(id + "#" + stateJson);
                         } else {
                             Toast.makeText(MainActivity.this, "WIFI不可用", Toast.LENGTH_SHORT).show();
@@ -307,6 +313,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private String mTodayCode = "";
     private String mSecondCode = "";
     private String mThirdCode = "";
+    private YmodleUtils ymodleUtils;
+    private ExecutorService threads;
 
 
     @SuppressLint("InvalidWakeLockTag")
@@ -328,6 +336,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     }
 
     private void initData() {
+        threads = Executors.newFixedThreadPool(1);
         devMonitorPresenter = new DevMonitorPresenter(this, bg, funView, time);
         devMonitorPresenter.setChannelId(0);
         normalDialog = new NormalDialog(this, R.style.mDialog);
@@ -406,14 +415,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         requestPermission();
         id = CodeUtils.getMacAddr();
 //        id = DeviceUtils.getSerialNumber(this);
-        Log.e("获得Mac地址",id+"");
+        Log.e("获得Mac地址", id + "");
         rbmq = new RbMqUtils();
         bean.setAck(0);
         bean.setCmd(0x46);
         bean.setDevType("WL025S1");
         bean.setDevId(id);
         bean.setSeqId(1);
-        bean.setTime(System.currentTimeMillis());
+        bean.setTime(System.currentTimeMillis() / 1000);
         bean.setVendor("general");
         stateJson = GsonUtils.GsonString(bean);
         receiver = new NetStatusReceiver();
@@ -926,14 +935,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 case "1"://毫米波雷达  进去一个人
 //                                    checkNum = +checkNumBean.getTotalNum();
 //                                    num.setText("当前室内人数：" + checkNumBean.getTotalNum() + "人");
-                                    checkNum = checkNum+1;
+                                    checkNum = checkNum + 1;
                                     num.setText("当前室内人数：" + checkNum + "人");
                                     SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
                                     break;
                                 case "2"://毫米波雷达  出去一个人
-                                    checkNum = checkNum-1;
-                                    if(checkNum<0){
-                                        checkNum=0;
+                                    checkNum = checkNum - 1;
+                                    if (checkNum < 0) {
+                                        checkNum = 0;
                                     }
                                     num.setText("当前室内人数：" + checkNum + "人");
                                     SPUtil.getInstance(MainActivity.this).setSettingParam("checkNum", checkNum);
@@ -1025,7 +1034,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 break;
             case 10://设置人数
 //                rbmq.pushMsg(DeviceUtils.getSerialNumber(this) + "#" + msgBean.getMsg());
-                checkNum=msgBean.getNum();
+                checkNum = msgBean.getNum();
                 handler.sendEmptyMessage(8);
                 SPUtil.getInstance(this).setSettingParam("checkNum", checkNum);
                 break;
@@ -1479,8 +1488,16 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
             }
         });
+
+//        requestFileUpdate(version);
     }
 
+    /**
+     * apk升级
+     *
+     * @param version
+     * @param listener
+     */
     private void requestAppUpdate(int version, final DataRequestListener<UpdateAppBean> listener) {
         UpdataJsonBean updataJsonBean = new UpdataJsonBean();
         UpdataJsonBean.PUSBean pusBean = new UpdataJsonBean.PUSBean();
@@ -1548,6 +1565,54 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         });
     }
 
+    /**
+     * 固件升级
+     *
+     * @param version
+     */
+    private void requestFileUpdate(int version) {
+        UpdataJsonBean updataJsonBean = new UpdataJsonBean();
+        UpdataJsonBean.PUSBean pusBean = new UpdataJsonBean.PUSBean();
+        UpdataJsonBean.PUSBean.BodyBean bodyBean = new UpdataJsonBean.PUSBean.BodyBean();
+        UpdataJsonBean.PUSBean.HeaderBean headerBean = new UpdataJsonBean.PUSBean.HeaderBean();
+
+        bodyBean.setToken("");
+        bodyBean.setVendor_name("general");
+        bodyBean.setPlatform("android");
+        bodyBean.setEndpoint_type("haomibo");
+        bodyBean.setCurrent_version(version + "");
+
+        headerBean.setApi_version("1.0");
+        headerBean.setMessage_type("MSG_PRODUCT_UPGRADE_DOWN_REQ");
+        headerBean.setSeq_id("1");
+
+        pusBean.setBody(bodyBean);
+        pusBean.setHeader(headerBean);
+        updataJsonBean.setPUS(pusBean);
+
+        String s = GsonUtils.GsonString(updataJsonBean);
+        String path = "";
+        path = "https://pus.wonlycloud.com:10400";
+        OkGo.<String>post(path).upJson(s).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                String s = response.body();
+                Gson gson = new Gson();
+                try {
+                    UpdateAppBean updateAppBean = gson.fromJson(s, UpdateAppBean.class);
+                    if (version>0) {
+                        downloadFile(updateAppBean.getPUS().getBody().getUrl());
+                    }
+                } catch (Exception e) {
+                    Log.e("升级接口报错", e.toString());
+                }
+            }
+             @Override
+            public void onError(Response<String> response) {
+            }
+        });
+    }
+
 
     //下载apk文件并跳转(第二次请求，get)
     private void downloadApp(String apk_url) {
@@ -1590,6 +1655,43 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     mDownloadDialog.show();
                 }
                 mProgress.setProgress((int) (progress.fraction * 100));
+            }
+        });
+    }
+
+    //下载固件
+    private void downloadFile(String apk_url) {
+        OkGo.<File>get(apk_url).tag(this).execute(new FileCallback() {
+            @Override
+            public void onError(Response<File> response) {
+                Log.e("固件下载","下载失败");
+            }
+
+            @Override
+            public void onSuccess(Response<File> response) {
+                String filePath = response.body().getAbsolutePath();
+                File file=new File(filePath);
+                Log.e("固件下载","下载成功："+filePath);
+                if(file.exists()){
+                    Constants.sCurrentPro = 0;
+                    Constants.sCountPro = 0;
+                    if(ymodleUtils==null)
+                        ymodleUtils = new YmodleUtils(MainActivity.this);
+                    ymodleUtils.writeData();
+                    threads.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                if (ymodleUtils.mUartManager.isOpen()) {
+                                    new YModem(ymodleUtils.mUartManager).send(file);
+                                }
+                            } catch (IOException e) {
+                                Log.e("gh0st", e.toString());
+                            }
+                        }
+                    });
+
+                }
             }
         });
     }
@@ -1715,4 +1817,5 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     public MainActivity getActivity() {
         return this;
     }
+
 }
