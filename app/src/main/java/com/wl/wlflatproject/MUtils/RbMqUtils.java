@@ -45,7 +45,7 @@ public class RbMqUtils {
      */
     public void setUpConnectionFactory() {
         factory.setHost(MQIP);//主机地址
-//        factory.setHost("116.62.235.84");//灰度
+//        factory.setHost("116.62.235.84");//灰度1
 //        factory.setHost("116.62.46.10");//测试
 
         factory.setPort(5672);// 端口号

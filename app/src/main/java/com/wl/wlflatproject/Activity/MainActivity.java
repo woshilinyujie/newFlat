@@ -413,8 +413,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         if (dialogTime == null)
             dialogTime = new WaitDialogTime(this, android.R.style.Theme_Translucent_NoTitleBar);
         requestPermission();
-        id = CodeUtils.getMacAddr();
-//        id = DeviceUtils.getSerialNumber(this);
+//        id = CodeUtils.getMacAddr();
+        id = DeviceUtils.getSerialNumber(this);
         Log.e("获得Mac地址", id + "");
         rbmq = new RbMqUtils();
         bean.setAck(0);
