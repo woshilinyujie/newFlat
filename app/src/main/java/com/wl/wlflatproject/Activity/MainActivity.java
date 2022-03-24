@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -104,12 +105,10 @@ import butterknife.OnClick;
 import ru.sir.ymodem.YModem;
 
 public class MainActivity extends AppCompatActivity implements SurfaceHolder.Callback, DevMonitorContract.IDevMonitorView {
-    public static boolean isHIgh = true;   //是否是高配
-    public static boolean isSystem = true;   //是否是系统签名
-    public static boolean isChuanMi = false;   //是否是对标创米智能门
     public static int checkNum = 0;//人流检测人数
     public static int checkNumRect = 0;//重置人流检测
     public boolean isDbugOpen = false;
+    public static boolean newID=true;
     @BindView(R.id.bg)
     ImageView bg;
     @BindView(R.id.open)
@@ -249,7 +248,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     handler.sendEmptyMessageDelayed(2, 24 * 60 * 60 * 1000);
                     break;
                 case 3:
-                    writeFile(file, 1 + "");
                     handler.sendEmptyMessageDelayed(3, 1000 * 3 * 60);
                     break;
                 case 4:
@@ -329,9 +327,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         initCalendar();
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "My Tag");
-        if (!isHIgh) {
-            wl.acquire();
-        }
         hideBottomUIMenu();
     }
 
@@ -362,44 +357,13 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         }
 
 
-        if (isHIgh) {
-            fHeight = DpUtils.dip2px(this, 300);
-            setScreen();
-            checkNum = SPUtil.getInstance(this).getSettingParam("checkNum", 0);
-//            checkNumRect = SPUtil.getInstance(this).getSettingParam("checkNumRect", 0);
-//            QtimesServiceManager.instance().connect(this);
-            SPUtil instance = SPUtil.getInstance(this);
-//            checkListener = new QtimesServiceManager.QtimesDoorServiceListener() {
-//                @Override
-//                public void onPersonInOutEvent(int i) {
-//                    sendCheckNum(i);
-//                }
-//
-//                @Override
-//                public void onPersonExistEvent(boolean b) {
-//
-//                }
-//
-//                @Override
-//                public void onServiceConnect() {
-//
-//                }
-//
-//                @Override
-//                public void onServiceDisconnect() {
-//
-//                }
-//            };
-            if (instance.getSettingParam("open", false)) {
-                open.setVisibility(View.VISIBLE);
-//                if (!QtimesServiceManager.instance().isServerActive()) {
-//                    QtimesServiceManager.instance().connect(this);
-//                }
-//                QtimesServiceManager.instance().setListener(checkListener);
-                handler.sendEmptyMessageAtTime(8, 1000);
-            }
-        } else {
-            fHeight = DpUtils.dip2px(this, 500);
+        fHeight = DpUtils.dip2px(this, 300);
+        setScreen();
+        checkNum = SPUtil.getInstance(this).getSettingParam("checkNum", 0);
+        SPUtil instance = SPUtil.getInstance(this);
+        if (instance.getSettingParam("open", false)) {
+            open.setVisibility(View.VISIBLE);
+            handler.sendEmptyMessageDelayed(8, 1000);
         }
         WindowManager windowManager = getWindowManager();
         screenWidth = windowManager.getDefaultDisplay().getWidth();
@@ -413,8 +377,12 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         if (dialogTime == null)
             dialogTime = new WaitDialogTime(this, android.R.style.Theme_Translucent_NoTitleBar);
         requestPermission();
-//        id = CodeUtils.getMacAddr();
-        id = DeviceUtils.getSerialNumber(this);
+        //生成id
+        if(newID){
+            id = CodeUtils.getMacAddr();
+        }else{
+            id = DeviceUtils.getSerialNumber(this);
+        }
         Log.e("获得Mac地址", id + "");
         rbmq = new RbMqUtils();
         bean.setAck(0);
@@ -432,9 +400,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         codeBt.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (isChuanMi) {
-                    return true;
-                }
                 if (setting.getVisibility() == View.VISIBLE) {
                     setting.setVisibility(View.GONE);
                 } else {
@@ -604,7 +569,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             if (openTvBean.getAct() == 1) {
                                 Log.e("小管家开视频---", s);
                                 handler.removeMessages(1);
-                                writeFile(file, 2 + "");//打开屏幕
                                 handler.removeMessages(3);
                                 handler.sendEmptyMessageDelayed(3, 1000 * 3 * 60);
                                 if (devMonitorPresenter.getVideoUuid() == null) {
@@ -837,16 +801,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                 QtimesServiceManager.instance().setLongOpenState(false);
                             }
                         } else if (data.contains("AT+CDWAKE=1")) {    //有人   但是不打开视频
-                            if (!isHIgh) {
-                                writeFile(file, 2 + "");//打开屏幕
-                                handler.removeMessages(3);
-                                handler.sendEmptyMessageDelayed(3, 1000 * 3 * 60);
-                            }
                         } else if (data.contains("AT+CDBELL=1")) {   //门铃
                             handler.removeMessages(1);
                             handler.sendEmptyMessageDelayed(1, 20000);
                             Log.e("有人按门铃", "..");
-                            writeFile(file, 2 + "");//打开屏幕
                             handler.removeMessages(3);
                             handler.sendEmptyMessageDelayed(3, 1000 * 30);
                             if (devMonitorPresenter.getVideoUuid() == null) {
@@ -876,7 +834,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                                     } else {//人靠近
                                         handler.removeMessages(1);
                                         Log.e("检测有人", "..");
-                                        writeFile(file, 2 + "");//打开屏幕
                                         handler.removeMessages(3);
                                         handler.sendEmptyMessageDelayed(3, 1000 * 30);
                                         if (devMonitorPresenter.getVideoUuid() == null) {
@@ -899,8 +856,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                             String[] split1 = s.split("\r\n");
                             String s1 = id + "#" + split1[0];
                             rbmq.pushMsg(s1);
-                            handler.removeMessages(0);
-                            handler.sendEmptyMessageAtTime(0, 60000);
+//                            handler.removeMessages(0);
+//                            handler.sendEmptyMessageDelayed(0, 10000);
                         } else if (data.contains("AT+CGSN=1")) {//上传id
                             serialPort.sendDate(("+CGSN:" + id + "\r\n").getBytes());
                         } else if (data.contains("AT+CGATT?")) {//服务器是否链接
@@ -1145,12 +1102,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 //        unregisterReceiver(mTimeReceiver);
         wl.release();
         EventBus.getDefault().unregister(this);
-        if (isHIgh) {
-            try {
-                QtimesServiceManager.instance().disconnect(this);
-            } catch (Exception e) {
+        try {
+            QtimesServiceManager.instance().disconnect(this);
+        } catch (Exception e) {
 
-            }
         }
         super.onDestroy();
     }
@@ -1181,8 +1136,8 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 NetworkInfo info = connectivityManager.getActiveNetworkInfo();
                 if (info != null && info.isAvailable()) {
                     mLocationUtils.startLocation();
-                    handler.removeMessages(0);
-                    handler.sendEmptyMessageDelayed(0, 10000);
+//                    handler.removeMessages(0);
+//                    handler.sendEmptyMessageDelayed(0, 10000);
                     rbmq.clearQueue();
                     Log.d("hsl666", "onReceive: ==可用");
                     initCalendar();
@@ -1507,14 +1462,10 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         bodyBean.setToken("");
         bodyBean.setVendor_name("general");
         bodyBean.setPlatform("android");
-        if (isHIgh) {
+        if(newID){
+            bodyBean.setEndpoint_type("WL025S1-H-N");
+        }else{
             bodyBean.setEndpoint_type("WL025S1-H");
-        } else {
-            if (isSystem) {
-                bodyBean.setEndpoint_type("WL025S1-Sign");
-            } else {
-                bodyBean.setEndpoint_type("WL025S1");
-            }
         }
         bodyBean.setCurrent_version(version + "");
 
@@ -1537,21 +1488,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 try {
                     UpdateAppBean updateAppBean = gson.fromJson(s, UpdateAppBean.class);
                     if (Integer.parseInt(updateAppBean.getPUS().getBody().getNew_version()) > version) {
-                        if (!isSystem) {
-                            if (!normalDialog.isShowing()) {
-                                normalDialog.show();
-                                normalDialog.getConfirmTv().setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        normalDialog.dismiss();
-                                        listener.success(updateAppBean);
-
-                                    }
-                                });
-                            }
-                        } else {
-                            listener.success(updateAppBean);
-                        }
+                        listener.success(updateAppBean);
                     }
                 } catch (Exception e) {
                     Log.e("升级接口报错", e.toString());
@@ -1600,14 +1537,15 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 Gson gson = new Gson();
                 try {
                     UpdateAppBean updateAppBean = gson.fromJson(s, UpdateAppBean.class);
-                    if (version>0) {
+                    if (version > 0) {
                         downloadFile(updateAppBean.getPUS().getBody().getUrl());
                     }
                 } catch (Exception e) {
                     Log.e("升级接口报错", e.toString());
                 }
             }
-             @Override
+
+            @Override
             public void onError(Response<String> response) {
             }
         });
@@ -1632,12 +1570,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                     mDownloadDialog = null;
                 }
                 String filePath = response.body().getAbsolutePath();
-                if (!isSystem) {
-                    Intent intent = IntentUtil.getInstallAppIntent(MainActivity.this, filePath);
-                    startActivity(intent);
-                } else {
-                    boolean b = installApp(filePath);
-                }
+                boolean b = installApp(filePath);
             }
 
             @Override
@@ -1664,18 +1597,18 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         OkGo.<File>get(apk_url).tag(this).execute(new FileCallback() {
             @Override
             public void onError(Response<File> response) {
-                Log.e("固件下载","下载失败");
+                Log.e("固件下载", "下载失败");
             }
 
             @Override
             public void onSuccess(Response<File> response) {
                 String filePath = response.body().getAbsolutePath();
-                File file=new File(filePath);
-                Log.e("固件下载","下载成功："+filePath);
-                if(file.exists()){
+                File file = new File(filePath);
+                Log.e("固件下载", "下载成功：" + filePath);
+                if (file.exists()) {
                     Constants.sCurrentPro = 0;
                     Constants.sCountPro = 0;
-                    if(ymodleUtils==null)
+                    if (ymodleUtils == null)
                         ymodleUtils = new YmodleUtils(MainActivity.this);
                     ymodleUtils.writeData();
                     threads.execute(new Runnable() {
@@ -1702,24 +1635,6 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
 
         //请求失败
         void fail(String msg);
-    }
-
-    public void writeFile(File file, String mode) {
-        try {
-            if (isHIgh) {
-                return;
-            }
-            if (fout == null) {
-                fout = new FileOutputStream(file);
-            }
-            if (printWriter == null) {
-                printWriter = new PrintWriter(fout);
-            }
-            printWriter.println(mode);
-            printWriter.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 

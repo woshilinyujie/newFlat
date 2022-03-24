@@ -73,7 +73,6 @@ public class SettingActivity1 extends AppCompatActivity {
 
     private void initData() {
         setIntent = getIntent();
-        if (MainActivity.isHIgh) {
             numRl.setVisibility(View.VISIBLE);
             system.setVisibility(View.VISIBLE);
             activation.setVisibility(View.VISIBLE);
@@ -88,7 +87,6 @@ public class SettingActivity1 extends AppCompatActivity {
             } else {
                 numTv.setText("关");
             }
-        }
         EventBus.getDefault().register(this);
         Intent intent = getIntent();
         waitTimeTv.setText(intent.getStringExtra("openDoorWaitTime") + "秒");
@@ -309,14 +307,12 @@ public class SettingActivity1 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == 200) {
-            if (MainActivity.isHIgh) {
                 SPUtil instance = SPUtil.getInstance(this);
                 if (instance.getSettingParam("open", false)) {
                     numTv.setText("开");
                 } else {
                     numTv.setText("关");
                 }
-            }
         }else if(resultCode==300){
             setIntent=data;
         }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.wl.wlflatproject.Activity.MainActivity;
 import com.wl.wlflatproject.MUtils.CodeUtils;
 import com.wl.wlflatproject.MUtils.DeviceUtils;
 import com.wl.wlflatproject.MUtils.DpUtils;
@@ -17,6 +18,7 @@ import java.util.Set;
 public class CodeDialog extends Dialog {
 
     private Bitmap towCode;
+
     public CodeDialog(Context context) {
         super(context);
         init(context);
@@ -24,10 +26,15 @@ public class CodeDialog extends Dialog {
 
     private void init(Context context) {
         View mView = LayoutInflater.from(getContext()).inflate(R.layout.code_dialog_layout, null);
-        ImageView iv=mView.findViewById(R.id.dialog_code_iv);
-        if(towCode==null){
-            towCode = DpUtils.getTowCode(context, "WL025S1-"+ CodeUtils.getMacAddr());
-//            towCode = DpUtils.getTowCode(context, "WL025S1-"+ DeviceUtils.getSerialNumber(context));
+        ImageView iv = mView.findViewById(R.id.dialog_code_iv);
+        if (towCode == null) {
+            if (MainActivity.newID) {
+                towCode = DpUtils.getTowCode(context, "WL025S1-" + CodeUtils.getMacAddr());
+
+            } else {
+                String serialNumber = DeviceUtils.getSerialNumber(context);
+                towCode = DpUtils.getTowCode(context, "WL025S1-" +serialNumber );
+            }
             iv.setImageBitmap(towCode);
             setContentView(mView);
         }

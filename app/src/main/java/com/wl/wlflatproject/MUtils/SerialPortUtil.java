@@ -39,11 +39,11 @@ public class SerialPortUtil {
     private void init() {
         if (mSerialPort == null) {
             String path;
-            if(MainActivity.isHIgh){
+//            if(MainActivity.isHIgh){
                 path = "/dev/ttyS4";//串口地址
-            }else{
-                path = "/dev/ttyS3";//串口地址
-            }
+//            }else{
+//                path = "/dev/ttyS3";//串口地址
+//            }
             int baurate = 9600;
             try {
                 mSerialPort = new SerialPort(new File(path), baurate, 0);

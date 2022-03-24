@@ -14,6 +14,7 @@ import com.wl.wlflatproject.Bean.GDFutureWeatherBean;
 import com.wl.wlflatproject.Bean.GDNowWeatherBean;
 
 import java.util.List;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -66,9 +67,15 @@ public abstract class LocationUtils {
      */
     private void createLocationClient() {
         //初始化定位
-        mLocationClient = new AMapLocationClient(AppContext.getInstance());
+        try {
+            AMapLocationClient.updatePrivacyShow(AppContext.getInstance(),true,true);
+            AMapLocationClient.updatePrivacyAgree(AppContext.getInstance(),true);
+            mLocationClient = new AMapLocationClient(AppContext.getInstance());
+            mLocationClient.setLocationListener(mLocationListener);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //设置定位回调监听
-        mLocationClient.setLocationListener(mLocationListener);
     }
 
     /**
