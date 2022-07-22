@@ -61,6 +61,7 @@ import com.wl.wlflatproject.Bean.UpdateAppBean;
 import com.wl.wlflatproject.Bean.WeatherBean;
 import com.wl.wlflatproject.MUtils.CodeUtils;
 import com.wl.wlflatproject.MUtils.Constants;
+import com.wl.wlflatproject.MUtils.DateUtil;
 import com.wl.wlflatproject.MUtils.DateUtils;
 import com.wl.wlflatproject.MUtils.DeviceUtils;
 import com.wl.wlflatproject.MUtils.DpUtils;
@@ -215,12 +216,14 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             switch (msg.what) {
                 case 0:
                     try {
+                        long currentTimeMillis = System.currentTimeMillis();
+                        dateTv.setText(dateUtils.dateFormat(currentTimeMillis));
                         if (wifiManager == null)
                             wifiManager = (WifiManager) getApplicationContext().getSystemService(WIFI_SERVICE);
                         WifiInfo wifiInfo = wifiManager.getConnectionInfo();
                         String ssid = wifiInfo.getSSID();
                         if (!TextUtils.isEmpty(ssid) && !ssid.equals("<unknown ssid>")) {
-                            bean.setTime(System.currentTimeMillis() / 1000);
+                            bean.setTime(currentTimeMillis/ 1000);
                             stateJson = GsonUtils.GsonString(bean);
                             rbmq.pushMsg(id + "#" + stateJson);
                         } else {
@@ -1032,8 +1035,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
     private void initCalendar() {
         DateUtils instance = DateUtils.getInstance();
         //日期
-        String dayOrMonthOrYear = instance.getDayOrMonthOrYear(System.currentTimeMillis());
-        dateTv.setText(dayOrMonthOrYear);
+        dateTv.setText(instance.dateFormat(System.currentTimeMillis()));
         //星期
         weekCnTv.setText(instance.getWeekday(System.currentTimeMillis(), true));
         weekEnTv.setText(instance.getWeekday(System.currentTimeMillis(), false));
@@ -1163,8 +1165,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                 if (hour == 0) {
                     //日期
-                    String dayOrMonthOrYear = dateUtils.getDayOrMonthOrYear(System.currentTimeMillis());
-                    dateTv.setText(dayOrMonthOrYear);
+                    dateTv.setText(dateUtils.dateFormat(System.currentTimeMillis()));
                     //星期
                     weekCnTv.setText(dateUtils.getWeekday(System.currentTimeMillis(), true));
                     weekEnTv.setText(dateUtils.getWeekday(System.currentTimeMillis(), false));
