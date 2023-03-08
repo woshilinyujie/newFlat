@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -56,6 +57,7 @@ import com.wl.wlflatproject.Bean.MainMsgBean;
 import com.wl.wlflatproject.Bean.OpenTvBean;
 import com.wl.wlflatproject.Bean.SetMsgBean;
 import com.wl.wlflatproject.Bean.StateBean;
+import com.wl.wlflatproject.Bean.TimeBean;
 import com.wl.wlflatproject.Bean.UpdataJsonBean;
 import com.wl.wlflatproject.Bean.UpdateAppBean;
 import com.wl.wlflatproject.Bean.WeatherBean;
@@ -426,6 +428,7 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
         handler.sendEmptyMessageDelayed(14, 3600 * 1000 * 2);
         handler.sendEmptyMessageDelayed(10, 10000);
         codeDialog = new CodeDialog(MainActivity.this, R.style.ActionSheetDialogStyle);
+        getSystemTime();
     }
 
 
@@ -1502,6 +1505,24 @@ public class MainActivity extends AppCompatActivity implements SurfaceHolder.Cal
             }
         });
     }
+
+
+    public void getSystemTime() {
+        String path = "https://ums-test.wonlycloud.com:10301/api/aigang/getTimeStamp";
+        OkGo.<String>post(path).execute(new StringCallback() {
+            @Override
+            public void onSuccess(Response<String> response) {
+                TimeBean bean=GsonUtils.GsonToBean(response.body(), TimeBean.class);
+                SystemClock.setCurrentTimeMillis(bean.getData().getMillisecond());
+            }
+
+            @Override
+            public void onError(Response<String> response) {
+            }
+        });
+    }
+
+
 
     /**
      * 固件升级

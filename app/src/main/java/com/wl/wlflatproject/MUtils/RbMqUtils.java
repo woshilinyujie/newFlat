@@ -47,6 +47,8 @@ public class RbMqUtils {
         factory.setHost(MQIP);//主机地址
 //        factory.setHost("116.62.235.84");//灰度1
 //        factory.setHost("rmq-test.wonlycloud.com");//测试
+//        factory.setHost("116.62.235.84");//灰度1
+//        factory.setHost("rmq-test.wonlycloud.com");//测试
 //        factory.setHost("rmq-gray.wonlycloud.com");//测试
 
         factory.setPort(5672);// 端口号

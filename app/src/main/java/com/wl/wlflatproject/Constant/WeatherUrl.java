@@ -55,5 +55,5 @@ public interface WeatherUrl {
     /**
      * 高德WEB服务的APP_KEY
      */
-    String GD_WEB_APP_KEY = "5cdd9d4364f7344dd25796692456bd8b";
+    String GD_WEB_APP_KEY = "248f96b945928c57fd6165d15ff30e5b";
 }
